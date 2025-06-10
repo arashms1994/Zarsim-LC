@@ -1,35 +1,30 @@
-import * as React from 'react';
-import * as ReactDom from 'react-dom';
-import { Version } from '@microsoft/sp-core-library';
+import * as React from "react";
+import * as ReactDom from "react-dom";
+import * as strings from "ZarsimLcWebPartStrings";
+import { Version } from "@microsoft/sp-core-library";
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
-  PropertyPaneTextField
-} from '@microsoft/sp-webpart-base';
-
-import * as strings from 'ZarsimLcWebPartStrings';
-import ZarsimLc from './components/ZarsimLc';
-import { IZarsimLcProps } from './components/IZarsimLcProps';
+  PropertyPaneTextField,
+} from "@microsoft/sp-webpart-base";
+import AppRouter from "./components/router/AppRouter";
 
 export interface IZarsimLcWebPartProps {
   description: string;
 }
 
 export default class ZarsimLcWebPart extends BaseClientSideWebPart<IZarsimLcWebPartProps> {
-
   public render(): void {
-    const element: React.ReactElement<IZarsimLcProps > = React.createElement(
-      ZarsimLc,
-      {
-        description: this.properties.description
-      }
+    ReactDom.render(
+      React.createElement(AppRouter, {
+        description: this.properties.description,
+      }),
+      this.domElement
     );
-
-    ReactDom.render(element, this.domElement);
   }
 
   protected get dataVersion(): Version {
-    return Version.parse('1.0');
+    return Version.parse("1.0");
   }
 
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
@@ -37,20 +32,20 @@ export default class ZarsimLcWebPart extends BaseClientSideWebPart<IZarsimLcWebP
       pages: [
         {
           header: {
-            description: strings.PropertyPaneDescription
+            description: strings.PropertyPaneDescription,
           },
           groups: [
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyPaneTextField('description', {
-                  label: strings.DescriptionFieldLabel
-                })
-              ]
-            }
-          ]
-        }
-      ]
+                PropertyPaneTextField("description", {
+                  label: strings.DescriptionFieldLabel,
+                }),
+              ],
+            },
+          ],
+        },
+      ],
     };
   }
 }
