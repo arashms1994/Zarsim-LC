@@ -110,11 +110,11 @@ export class PersianDatePicker extends React.Component<any, any> {
     return (
       <div className={styles.calendarPopup}>
         <div className={styles.calendarHeader}>
-          <button onClick={this.prevMonth}>«</button>
-          <span>
-            {this.state.currentYear} / {this.state.currentMonth}
+          <button className={styles.calendarHeaderBtn} onClick={this.prevMonth}>«</button>
+          <span className={styles.calendarHeaderText}>
+            {this.state.currentMonth} / {this.state.currentYear}
           </span>
-          <button onClick={this.nextMonth}>»</button>
+          <button className={styles.calendarHeaderBtn} onClick={this.nextMonth}>»</button>
         </div>
         <div className={styles.calendarGrid}>{this.renderDays()}</div>
       </div>
@@ -132,6 +132,8 @@ export class PersianDatePicker extends React.Component<any, any> {
           }}
           onFocus={this.toggleCalendar}
           readOnly
+          placeholder="یک تاریخ را انتخاب کنید"
+          className={styles.datePickerInput}
         />
         {this.renderCalendar()}
       </div>
