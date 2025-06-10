@@ -1,0 +1,11 @@
+{
+  "$schema": "https://dev.office.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "zarsim-lc-client-side-solution",
+    "id": "6336a3b0-13b9-4625-86e3-3c2dccda4013",
+    "version": "1.0.0.0"
+  },
+  "paths": {
+    "zippedPackage": "solution/zarsim-lc.sppkg"
+  }
+}

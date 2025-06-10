@@ -1,0 +1,8 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "version": "1.4.1",
+    "libraryName": "zarsim-lc",
+    "libraryId": "6336a3b0-13b9-4625-86e3-3c2dccda4013",
+    "environment": "onprem"
+  }
+}

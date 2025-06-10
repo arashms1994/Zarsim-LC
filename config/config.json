@@ -1,0 +1,13 @@
+{
+  "entries": [
+    {
+      "entry": "./lib/webparts/zarsimLc/ZarsimLcWebPart.js",
+      "manifest": "./src/webparts/zarsimLc/ZarsimLcWebPart.manifest.json",
+      "outputPath": "./dist/zarsim-lc-web-part.js"
+    }
+  ],
+  "externals": {},
+  "localizedResources": {
+    "ZarsimLcWebPartStrings": "webparts/zarsimLc/loc/{locale}.js"
+  }
+}
