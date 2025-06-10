@@ -6,19 +6,7 @@ import {
 } from "../utils/PersianCalendarUtils";
 import styles from "./PersianDatePicker.module.scss";
 import moment = require("moment");
-
-export interface PersianDatePickerProps {
-  value?: string;
-  onChange?: (newValue: string) => void;
-  inputProps?: React.HTMLProps<HTMLInputElement>;
-}
-
-export interface PersianDatePickerState {
-  showCalendar: boolean;
-  selectedDate: string;
-  currentYear: number;
-  currentMonth: number;
-}
+import { PersianDatePickerProps } from "../IZarsimLcProps";
 
 export class PersianDatePicker extends React.Component<any, any> {
   private inputElement: HTMLInputElement | null;
