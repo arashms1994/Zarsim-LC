@@ -1,7 +1,6 @@
 import * as React from "react";
 import styles from "./ZarsimLc.module.scss";
 import { IZarsimLcProps } from "./IZarsimLcProps";
-import PersianDatePicker from "./persian-date-picker/PersianDatePicker";
 
 export default class ZarsimLc extends React.Component<IZarsimLcProps, {}> {
   public render(): React.ReactElement<IZarsimLcProps> {
