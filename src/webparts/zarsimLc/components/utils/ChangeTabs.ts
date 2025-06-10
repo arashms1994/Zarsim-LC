@@ -1,4 +1,4 @@
-import { hashHistory } from "react-router";
+import { hashHistory } from 'react-router';
 
 export function goCarry() {
   hashHistory.push("/carry");

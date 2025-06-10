@@ -33,9 +33,11 @@
     "@microsoft/sp-build-web": "~1.1.0",
     "@microsoft/sp-module-interfaces": "~1.1.0",
     "@microsoft/sp-webpart-workbench": "~1.1.0",
-    "gulp": "~3.9.1",
     "@types/chai": ">=3.4.34 <3.6.0",
+    "@types/history": "^3.2.2",
     "@types/mocha": ">=2.2.33 <2.6.0",
-    "ajv": "~5.2.2"
+    "@types/react-router": "^3.0.13",
+    "ajv": "~5.2.2",
+    "gulp": "~3.9.1"
   }
 }
