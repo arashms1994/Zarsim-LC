@@ -8,10 +8,7 @@ import {
   PropertyPaneTextField,
 } from "@microsoft/sp-webpart-base";
 import AppRouter from "./components/router/AppRouter";
-
-export interface IZarsimLcWebPartProps {
-  description: string;
-}
+import { IZarsimLcWebPartProps } from "./components/IZarsimLcProps";
 
 export default class ZarsimLcWebPart extends BaseClientSideWebPart<IZarsimLcWebPartProps> {
   public render(): void {
