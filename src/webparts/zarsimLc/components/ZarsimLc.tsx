@@ -8,7 +8,6 @@ export default class ZarsimLc extends React.Component<IZarsimLcProps, {}> {
     return (
       <div className={styles.container}>
         <h1 className={styles.heading}>نمایش پیش فاکتور</h1>
-        <PersianDatePicker />
       </div>
     );
   }
