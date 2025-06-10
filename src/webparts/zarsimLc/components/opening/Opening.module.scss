@@ -1,0 +1,63 @@
+.openingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding-block: 40px;
+}
+
+.openingHeading {
+  color: black;
+}
+
+.openingDiv {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.openingInput {
+  min-width: 230px;
+  min-height: 30px;
+  padding: 2px 4px;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgb(68, 68, 68);
+  border-radius: 8px;
+}
+
+.openingLabel {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.openingSelect {
+  min-width: 230px;
+  min-height: 30px;
+  padding: 2px 4px;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgb(68, 68, 68);
+  border-radius: 8px;
+}
+
+.openingOption {
+  min-width: 230px;
+  border-radius: 8px;
+  min-height: 30px;
+  padding: 4px;
+  font-size: 18px;
+  font-weight: 400;
+  color: rgb(20, 20, 20);
+}
+
+.openingFileUploaderP {
+    color: red;
+    font-size: 16px;
+    text-align: center;
+    font-weight: 400;
+}
