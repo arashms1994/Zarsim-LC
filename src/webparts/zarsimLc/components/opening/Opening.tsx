@@ -43,84 +43,88 @@ export default class Opening extends React.Component<{}, OpeningState> {
 
   render() {
     return (
-      <form className={styles.openingContainer} onSubmit={this.handleSubmit}>
-        <div className={styles.openingDiv}>
-          <label className={styles.openingLabel} htmlFor="LCTotalPrice">
-            تاریخ گشایش:
-          </label>
-          <PersianDatePicker />
-        </div>
+      <div>
+        <form className={styles.openingContainer} onSubmit={this.handleSubmit}>
+          <div className={styles.openingDiv}>
+            <label className={styles.openingLabel} htmlFor="LCTotalPrice">
+              تاریخ گشایش:
+            </label>
+            <PersianDatePicker />
+          </div>
 
-        <div className={styles.openingDiv}>
-          <label className={styles.openingLabel} htmlFor="LCTotalPrice">
-            مبلغ اعتبار (ریال):
-          </label>
-          <input
-            className={styles.openingInput}
-            type="text"
-            name="LCTotalPrice"
-            value={this.state.LCTotalPrice}
-            onChange={this.handleChange}
-            id="LCTotalPrice"
-          />
-        </div>
+          <div className={styles.openingDiv}>
+            <label className={styles.openingLabel} htmlFor="LCTotalPrice">
+              مبلغ اعتبار (ریال):
+            </label>
+            <input
+              className={styles.openingInput}
+              type="text"
+              name="LCTotalPrice"
+              value={this.state.LCTotalPrice}
+              onChange={this.handleChange}
+              id="LCTotalPrice"
+            />
+          </div>
 
-        <div className={styles.openingDiv}>
-          <label className={styles.openingLabel} htmlFor="LCOpeningDate">
-            مبدا گشایش اعتبار:
-          </label>
-          <select
-            name="LCOpeningDate"
-            id="LCOpeningDate"
-            className={styles.openingSelect}
-            value={this.state.LCOpeningDate}
-            onChange={this.handleChange}
-          >
-            {LCOpeningDates.map(({ value, label }) => (
-              <option
-                key={value || "empty"}
-                value={value}
-                className={styles.openingOption}
-              >
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className={styles.openingDiv}>
+            <label className={styles.openingLabel} htmlFor="LCOpeningDate">
+              مبدا گشایش اعتبار:
+            </label>
+            <select
+              name="LCOpeningDate"
+              id="LCOpeningDate"
+              className={styles.openingSelect}
+              value={this.state.LCOpeningDate}
+              onChange={this.handleChange}
+            >
+              {LCOpeningDates.map(({ value, label }) => (
+                <option
+                  key={value || "empty"}
+                  value={value}
+                  className={styles.openingOption}
+                >
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className={styles.openingDiv}>
-          <label className={styles.openingLabel} htmlFor="settlementDate">
-            مدت زمان تسویه:
-          </label>
-          <select
-            name="settlementDate"
-            id="settlementDate"
-            className={styles.openingSelect}
-            value={this.state.settlementDate}
-            onChange={this.handleChange}
-          >
-            {settlementDates.map(({ value, label }) => (
-              <option
-                key={value || "empty"}
-                value={value}
-                className={styles.openingOption}
-              >
-                {label}
-              </option>
-            ))}
-          </select>
-        </div>
+          <div className={styles.openingDiv}>
+            <label className={styles.openingLabel} htmlFor="settlementDate">
+              مدت زمان تسویه:
+            </label>
+            <select
+              name="settlementDate"
+              id="settlementDate"
+              className={styles.openingSelect}
+              value={this.state.settlementDate}
+              onChange={this.handleChange}
+            >
+              {settlementDates.map(({ value, label }) => (
+                <option
+                  key={value || "empty"}
+                  value={value}
+                  className={styles.openingOption}
+                >
+                  {label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <div className={styles.openingDiv}>
-          <label className={styles.openingLabel} htmlFor="openingUploadFile">
-            آپلود ابلاغیه:
-          </label>
-          <FileUploader />
-        </div>
-          <p className={styles.openingFileUploaderP}>
-            آپلود ابلاغیه مهر و امضادار اجباری میباشد.
-          </p>
-      </form>
+          <div className={styles.openingDiv}>
+            <label className={styles.openingLabel} htmlFor="openingUploadFile">
+              آپلود ابلاغیه:
+            </label>
+            <FileUploader />
+          </div>
+
+          <button type="submit" className={styles.openingSubmitButton}>ثبت تغییرات</button>
+        </form>
+        <p className={styles.openingFileUploaderP}>
+          آپلود ابلاغیه مهر و امضادار اجباری میباشد.
+        </p>
+      </div>
     );
   }
 }

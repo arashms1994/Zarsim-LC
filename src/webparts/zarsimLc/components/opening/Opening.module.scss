@@ -55,6 +55,23 @@
   color: rgb(20, 20, 20);
 }
 
+.openingSubmitButton {
+    border: none;
+    border-radius: 8px;
+    min-width: 200px;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: 600;
+    background-color: rgb(64, 64, 238);
+    color:white;
+    transition: all 300ms linear;
+    cursor: pointer;
+
+    &:hover {
+        background: #00276e;
+    }
+}
+
 .openingFileUploaderP {
     color: red;
     font-size: 16px;
