@@ -1,17 +1,18 @@
 import * as React from "react";
-import styles from "./Opening.module.scss";
+import styles from "./Openning.module.scss";
 import PersianDatePicker from "../persian-date-picker/PersianDatePicker";
 import { FileUploader } from "../file-uploader/FileUploader";
+import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 
-export interface OpeningState {
-  LCTotalPrice: string;
-  LCOpeningDate: string;
+export interface OpenningState {
+  LCTotalPrice: number;
+  LCOpenningDate: string;
   settlementDate: string;
 }
 
-const LCOpeningDates = [
+const LCOpenningDates = [
   { value: "", label: "لطفا یک گزینه را انتخاب کنید" },
-  { value: "openingDate", label: "تاریخ گشایش/ابلاغ" },
+  { value: "openningDate", label: "تاریخ گشایش/ابلاغ" },
   { value: "shippingDate", label: "تاریخ حمل/بارنامه" },
   { value: "invoiceDate", label: "تاریخ فاکتور" },
 ];
@@ -24,16 +25,28 @@ const settlementDates = [
   { value: "120", label: "120" },
 ];
 
-export default class Opening extends React.Component<{}, OpeningState> {
-  state: OpeningState = {
-    LCTotalPrice: "",
-    LCOpeningDate: "",
+export default class Openning extends React.Component<{}, OpenningState> {
+  state: OpenningState = {
+    LCTotalPrice: 0,
+    LCOpenningDate: "",
     settlementDate: "",
   };
 
   handleChange = (event: any) => {
     const { name, value } = event.target;
-    this.setState({ [name]: value } as Pick<OpeningState, keyof OpeningState>);
+
+    if (name === "LCTotalPrice") {
+      const numericValue = Number(value.replace(/,/g, ""));
+      this.setState({ [name]: numericValue } as Pick<
+        OpenningState,
+        keyof OpenningState
+      >);
+    } else {
+      this.setState({ [name]: value } as Pick<
+        OpenningState,
+        keyof OpenningState
+      >);
+    }
   };
 
   handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -44,44 +57,44 @@ export default class Opening extends React.Component<{}, OpeningState> {
   render() {
     return (
       <div>
-        <form className={styles.openingContainer} onSubmit={this.handleSubmit}>
-          <div className={styles.openingDiv}>
-            <label className={styles.openingLabel} htmlFor="LCTotalPrice">
+        <form className={styles.openningContainer} onSubmit={this.handleSubmit}>
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="LCTotalPrice">
               تاریخ گشایش:
             </label>
             <PersianDatePicker />
           </div>
 
-          <div className={styles.openingDiv}>
-            <label className={styles.openingLabel} htmlFor="LCTotalPrice">
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="LCTotalPrice">
               مبلغ اعتبار (ریال):
             </label>
             <input
-              className={styles.openingInput}
+              className={styles.openningInput}
               type="text"
               name="LCTotalPrice"
-              value={this.state.LCTotalPrice}
+              value={formatNumberWithComma(this.state.LCTotalPrice)}
               onChange={this.handleChange}
               id="LCTotalPrice"
             />
           </div>
 
-          <div className={styles.openingDiv}>
-            <label className={styles.openingLabel} htmlFor="LCOpeningDate">
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="LCOpenningDate">
               مبدا گشایش اعتبار:
             </label>
             <select
-              name="LCOpeningDate"
-              id="LCOpeningDate"
-              className={styles.openingSelect}
-              value={this.state.LCOpeningDate}
+              name="LCOpenningDate"
+              id="LCOpenningDate"
+              className={styles.openningSelect}
+              value={this.state.LCOpenningDate}
               onChange={this.handleChange}
             >
-              {LCOpeningDates.map(({ value, label }) => (
+              {LCOpenningDates.map(({ value, label }) => (
                 <option
                   key={value || "empty"}
                   value={value}
-                  className={styles.openingOption}
+                  className={styles.openningOption}
                 >
                   {label}
                 </option>
@@ -89,14 +102,14 @@ export default class Opening extends React.Component<{}, OpeningState> {
             </select>
           </div>
 
-          <div className={styles.openingDiv}>
-            <label className={styles.openingLabel} htmlFor="settlementDate">
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="settlementDate">
               مدت زمان تسویه:
             </label>
             <select
               name="settlementDate"
               id="settlementDate"
-              className={styles.openingSelect}
+              className={styles.openningSelect}
               value={this.state.settlementDate}
               onChange={this.handleChange}
             >
@@ -104,7 +117,7 @@ export default class Opening extends React.Component<{}, OpeningState> {
                 <option
                   key={value || "empty"}
                   value={value}
-                  className={styles.openingOption}
+                  className={styles.openningOption}
                 >
                   {label}
                 </option>
@@ -112,16 +125,21 @@ export default class Opening extends React.Component<{}, OpeningState> {
             </select>
           </div>
 
-          <div className={styles.openingDiv}>
-            <label className={styles.openingLabel} htmlFor="openingUploadFile">
+          <div className={styles.openningDiv}>
+            <label
+              className={styles.openningLabel}
+              htmlFor="openningUploadFile"
+            >
               آپلود ابلاغیه:
             </label>
             <FileUploader />
           </div>
 
-          <button type="submit" className={styles.openingSubmitButton}>ثبت تغییرات</button>
+          <button type="submit" className={styles.openningSubmitButton}>
+            ثبت تغییرات
+          </button>
         </form>
-        <p className={styles.openingFileUploaderP}>
+        <p className={styles.openningFileUploaderP}>
           آپلود ابلاغیه مهر و امضادار اجباری میباشد.
         </p>
       </div>

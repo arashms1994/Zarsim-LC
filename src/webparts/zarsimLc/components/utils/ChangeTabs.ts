@@ -4,8 +4,8 @@ export function goCarry() {
   hashHistory.push("/carry");
 }
 
-export function goOpening() {
-  hashHistory.push("/opening");
+export function goOpenning() {
+  hashHistory.push("/openning");
 }
 export function goPeyment() {
   hashHistory.push("/payment");

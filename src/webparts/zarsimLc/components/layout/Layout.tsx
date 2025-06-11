@@ -2,7 +2,7 @@ import * as React from "react";
 import styles from "./Layout.module.scss";
 import {
   goCarry,
-  goOpening,
+  goOpenning,
   goPeyment,
   goPreInvoice,
 } from "../utils/ChangeTabs";
@@ -35,8 +35,8 @@ export class Layout extends React.Component<any, any> {
           </button>
 
           <button
-            onClick={goOpening}
-            className={this.getButtonClass("/opening")}
+            onClick={goOpenning}
+            className={this.getButtonClass("/openning")}
           >
             گشایش و ابلاغ
           </button>

@@ -1,4 +1,4 @@
-.openingContainer {
+.openningContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,11 +7,11 @@
   padding-block: 40px;
 }
 
-.openingHeading {
+.openningHeading {
   color: black;
 }
 
-.openingDiv {
+.openningDiv {
   width: 100%;
   max-width: 400px;
   display: flex;
@@ -20,7 +20,7 @@
   gap: 20px;
 }
 
-.openingInput {
+.openningInput {
   min-width: 230px;
   min-height: 30px;
   padding: 2px 4px;
@@ -30,12 +30,12 @@
   border-radius: 8px;
 }
 
-.openingLabel {
+.openningLabel {
   font-size: 22px;
   font-weight: 500;
 }
 
-.openingSelect {
+.openningSelect {
   min-width: 230px;
   min-height: 30px;
   padding: 2px 4px;
@@ -45,7 +45,7 @@
   border-radius: 8px;
 }
 
-.openingOption {
+.openningOption {
   min-width: 230px;
   border-radius: 8px;
   min-height: 30px;
@@ -55,7 +55,7 @@
   color: rgb(20, 20, 20);
 }
 
-.openingSubmitButton {
+.openningSubmitButton {
     border: none;
     border-radius: 8px;
     min-width: 200px;
@@ -72,7 +72,7 @@
     }
 }
 
-.openingFileUploaderP {
+.openningFileUploaderP {
     color: red;
     font-size: 16px;
     text-align: center;
