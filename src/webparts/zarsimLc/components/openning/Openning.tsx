@@ -3,32 +3,15 @@ import styles from "./Openning.module.scss";
 import PersianDatePicker from "../persian-date-picker/PersianDatePicker";
 import { FileUploader } from "../file-uploader/FileUploader";
 import { formatNumberWithComma } from "../utils/formatNumberWithComma";
-
-export interface OpenningState {
-  LCTotalPrice: number;
-  LCOpenningDate: string;
-  settlementDate: string;
-}
-
-const LCOpenningDates = [
-  { value: "", label: "لطفا یک گزینه را انتخاب کنید" },
-  { value: "openningDate", label: "تاریخ گشایش/ابلاغ" },
-  { value: "shippingDate", label: "تاریخ حمل/بارنامه" },
-  { value: "invoiceDate", label: "تاریخ فاکتور" },
-];
-const settlementDates = [
-  { value: "", label: "لطفا یک گزینه را انتخاب کنید" },
-  { value: "45", label: "45" },
-  { value: "60", label: "60" },
-  { value: "75", label: "75" },
-  { value: "90", label: "90" },
-  { value: "120", label: "120" },
-];
+import { OpenningState } from "../IZarsimLcProps";
+import { LCOpenningDates, settlementDates } from "../constants/Constants";
 
 export default class Openning extends React.Component<{}, OpenningState> {
   state: OpenningState = {
     LCTotalPrice: 0,
+    LCNumber: "",
     LCOpenningDate: "",
+    LCCommunicationDate:"",
     settlementDate: "",
   };
 
@@ -59,10 +42,24 @@ export default class Openning extends React.Component<{}, OpenningState> {
       <div>
         <form className={styles.openningContainer} onSubmit={this.handleSubmit}>
           <div className={styles.openningDiv}>
-            <label className={styles.openningLabel} htmlFor="LCTotalPrice">
+            <label className={styles.openningLabel} htmlFor="LCOpenningDate">
               تاریخ گشایش:
             </label>
             <PersianDatePicker />
+          </div>
+
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="LCNumber">
+              شماره اعتبار اسنادی:
+            </label>
+            <input
+              className={styles.openningInput}
+              type="text"
+              name="LCNumber"
+              value={this.state.LCNumber}
+              onChange={this.handleChange}
+              id="LCNumber"
+            />
           </div>
 
           <div className={styles.openningDiv}>
@@ -77,6 +74,13 @@ export default class Openning extends React.Component<{}, OpenningState> {
               onChange={this.handleChange}
               id="LCTotalPrice"
             />
+          </div>
+
+          <div className={styles.openningDiv}>
+            <label className={styles.openningLabel} htmlFor="LCCommunicationDate">
+              تاریخ ابلاغ:
+            </label>
+            <PersianDatePicker />
           </div>
 
           <div className={styles.openningDiv}>
@@ -140,7 +144,7 @@ export default class Openning extends React.Component<{}, OpenningState> {
           </button>
         </form>
         <p className={styles.openningFileUploaderP}>
-          آپلود ابلاغیه مهر و امضادار اجباری میباشد.
+          * آپلود ابلاغیه مهر و امضادار اجباری میباشد.
         </p>
       </div>
     );
