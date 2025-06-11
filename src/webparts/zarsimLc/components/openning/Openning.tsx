@@ -3,38 +3,38 @@ import styles from "./Openning.module.scss";
 import PersianDatePicker from "../persian-date-picker/PersianDatePicker";
 import { FileUploader } from "../file-uploader/FileUploader";
 import { formatNumberWithComma } from "../utils/formatNumberWithComma";
-import { OpenningState } from "../IZarsimLcProps";
+import { IOpenningState } from "../IZarsimLcProps";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";
+import { AddToOpenningDate } from "../api/AddData";
 
-export default class Openning extends React.Component<{}, OpenningState> {
-  state: OpenningState = {
+export default class Openning extends React.Component<{}, any> {
+  state: IOpenningState = {
     LCTotalPrice: 0,
     LCNumber: "",
     LCOpenningDate: "",
-    LCCommunicationDate:"",
-    settlementDate: "",
+    LCCommunicationDate: "",
+    LCSettlementDate: "",
+    LCOriginOpenningDate: "",
   };
 
   handleChange = (event: any) => {
     const { name, value } = event.target;
 
-    if (name === "LCTotalPrice") {
-      const numericValue = Number(value.replace(/,/g, ""));
-      this.setState({ [name]: numericValue } as Pick<
-        OpenningState,
-        keyof OpenningState
-      >);
-    } else {
-      this.setState({ [name]: value } as Pick<
-        OpenningState,
-        keyof OpenningState
-      >);
-    }
+    this.setState((prevState) => ({
+      ...prevState,
+      [name]: name === "LCTotalPrice" ? Number(value.replace(/,/g, "")) : value,
+    }));
   };
 
-  handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form submitted with data:", this.state);
+    try {
+      await AddToOpenningDate(this.state);
+      alert("اطلاعات با موفقیت ثبت شد.");
+    } catch (error) {
+      console.error("خطا در ثبت اطلاعات:", error);
+      alert("خطایی در ثبت اطلاعات رخ داد.");
+    }
   };
 
   render() {
@@ -45,7 +45,14 @@ export default class Openning extends React.Component<{}, OpenningState> {
             <label className={styles.openningLabel} htmlFor="LCOpenningDate">
               تاریخ گشایش:
             </label>
-            <PersianDatePicker />
+            <PersianDatePicker
+              value={this.state.LCOpenningDate}
+              onChange={(value: string) =>
+                this.setState({
+                  LCOpenningDate: value,
+                })
+              }
+            />
           </div>
 
           <div className={styles.openningDiv}>
@@ -77,21 +84,34 @@ export default class Openning extends React.Component<{}, OpenningState> {
           </div>
 
           <div className={styles.openningDiv}>
-            <label className={styles.openningLabel} htmlFor="LCCommunicationDate">
+            <label
+              className={styles.openningLabel}
+              htmlFor="LCCommunicationDate"
+            >
               تاریخ ابلاغ:
             </label>
-            <PersianDatePicker />
+            <PersianDatePicker
+              value={this.state.LCCommunicationDate}
+              onChange={(value: string) =>
+                this.setState({
+                  LCCommunicationDate: value,
+                })
+              }
+            />
           </div>
 
           <div className={styles.openningDiv}>
-            <label className={styles.openningLabel} htmlFor="LCOpenningDate">
+            <label
+              className={styles.openningLabel}
+              htmlFor="LCOriginOpenningDate"
+            >
               مبدا گشایش اعتبار:
             </label>
             <select
-              name="LCOpenningDate"
-              id="LCOpenningDate"
+              name="LCOriginOpenningDate"
+              id="LCOriginOpenningDate"
               className={styles.openningSelect}
-              value={this.state.LCOpenningDate}
+              value={this.state.LCOriginOpenningDate}
               onChange={this.handleChange}
             >
               {LCOpenningDates.map(({ value, label }) => (
@@ -107,14 +127,14 @@ export default class Openning extends React.Component<{}, OpenningState> {
           </div>
 
           <div className={styles.openningDiv}>
-            <label className={styles.openningLabel} htmlFor="settlementDate">
+            <label className={styles.openningLabel} htmlFor="LCSettlementDate">
               مدت زمان تسویه:
             </label>
             <select
-              name="settlementDate"
-              id="settlementDate"
+              name="LCSettlementDate"
+              id="LCSettlementDate"
               className={styles.openningSelect}
-              value={this.state.settlementDate}
+              value={this.state.LCSettlementDate}
               onChange={this.handleChange}
             >
               {settlementDates.map(({ value, label }) => (
@@ -140,7 +160,7 @@ export default class Openning extends React.Component<{}, OpenningState> {
           </div>
 
           <button type="submit" className={styles.openningSubmitButton}>
-            ثبت تغییرات
+            ثبت اطلاعات
           </button>
         </form>
         <p className={styles.openningFileUploaderP}>

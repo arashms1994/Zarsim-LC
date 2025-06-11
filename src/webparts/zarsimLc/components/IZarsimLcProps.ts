@@ -2,12 +2,13 @@ export interface IZarsimLcWebPartProps {
   description: string;
 }
 
-export interface OpenningState {
+export interface IOpenningState {
   LCTotalPrice: number;
   LCNumber: string;
   LCOpenningDate: string;
   LCCommunicationDate: string;
-  settlementDate: string;
+  LCSettlementDate: string;
+  LCOriginOpenningDate: string;
 }
 
 export interface IZarsimLcProps {
