@@ -40,13 +40,6 @@ export default class Openning extends React.Component<{}, any> {
     }
   };
 
-  async componentDidMount() {
-    const digest = await getDigest();
-    console.log("digest:", digest);
-    const opnenings = await getOpenningListItems();
-    console.log("opennings:", opnenings);
-  }
-
   render() {
     return (
       <div>

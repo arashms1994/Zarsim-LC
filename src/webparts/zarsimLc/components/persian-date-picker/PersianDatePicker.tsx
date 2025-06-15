@@ -14,7 +14,6 @@ export class PersianDatePicker extends React.Component<any, any> {
   constructor(props: PersianDatePickerProps) {
     super(props);
     const today = getTodayPersianDate();
-    console.log("today from jdToPersian:", today);
 
     this.state = {
       showCalendar: false,
@@ -37,10 +36,7 @@ export class PersianDatePicker extends React.Component<any, any> {
   }
 
   selectDate(year: number, month: number, day: number) {
-    console.log("ورودی selectDate:", { year, month, day });
-
     const formatted = formatPersianDate(year, month, day);
-    console.log("تاریخ انتخاب شده:", formatted);
 
     this.setState({
       selectedDate: formatted,
@@ -80,7 +76,6 @@ export class PersianDatePicker extends React.Component<any, any> {
     if (month < 1) {
       month = 12;
       year -= 1;
-      console.log("ماه قبلی:", year, month);
     }
     this.setState({
       currentMonth: month,
@@ -94,7 +89,6 @@ export class PersianDatePicker extends React.Component<any, any> {
     if (month > 12) {
       month = 1;
       year += 1;
-      console.log("ماه بعدی:", year, month);
     }
     this.setState({
       currentMonth: month,
@@ -103,18 +97,20 @@ export class PersianDatePicker extends React.Component<any, any> {
   }
 
   renderCalendar() {
-    console.log("نمایش تقویم:", !this.state.showCalendar);
-
     if (!this.state.showCalendar) return null;
 
     return (
       <div className={styles.calendarPopup}>
         <div className={styles.calendarHeader}>
-          <button className={styles.calendarHeaderBtn} onClick={this.prevMonth}>«</button>
+          <button className={styles.calendarHeaderBtn} onClick={this.prevMonth}>
+            «
+          </button>
           <span className={styles.calendarHeaderText}>
             {this.state.currentMonth} / {this.state.currentYear}
           </span>
-          <button className={styles.calendarHeaderBtn} onClick={this.nextMonth}>»</button>
+          <button className={styles.calendarHeaderBtn} onClick={this.nextMonth}>
+            »
+          </button>
         </div>
         <div className={styles.calendarGrid}>{this.renderDays()}</div>
       </div>

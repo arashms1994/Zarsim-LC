@@ -7,8 +7,6 @@ export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
   const itemType = `SP.Data.LC_x005f_OpenningListItem`;
   const digest = await getDigest();
 
-  console.log("itemType:", itemType);
-
   console.log("Sending data:", {
     Title: "اعتبار اسنادی",
     LC_Number: state.LCNumber,
