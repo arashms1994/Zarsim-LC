@@ -3,6 +3,7 @@ import {
   pad,
   getTodayPersianDate,
   formatPersianDate,
+  getJalaaliMonthLength,
 } from "../utils/PersianCalendarUtils";
 import styles from "./PersianDatePicker.module.scss";
 import moment = require("moment");
@@ -48,15 +49,16 @@ export class PersianDatePicker extends React.Component<any, any> {
   }
 
   renderDays() {
-    const daysInMonth = moment(
-      `${this.state.currentYear}/${pad(this.state.currentMonth)}/01`,
-      "jYYYY/jMM/jDD"
-    ).daysInMonth();
+    const daysInMonth = getJalaaliMonthLength(
+      this.state.currentYear,
+      this.state.currentMonth
+    );
 
     const days = [];
     for (let d = 1; d <= daysInMonth; d++) {
       days.push(
         <button
+          type="button"
           key={d}
           onClick={() =>
             this.selectDate(this.state.currentYear, this.state.currentMonth, d)
@@ -102,13 +104,21 @@ export class PersianDatePicker extends React.Component<any, any> {
     return (
       <div className={styles.calendarPopup}>
         <div className={styles.calendarHeader}>
-          <button className={styles.calendarHeaderBtn} onClick={this.prevMonth}>
+          <button
+            type="button"
+            className={styles.calendarHeaderBtn}
+            onClick={this.prevMonth}
+          >
             «
           </button>
           <span className={styles.calendarHeaderText}>
             {this.state.currentMonth} / {this.state.currentYear}
           </span>
-          <button className={styles.calendarHeaderBtn} onClick={this.nextMonth}>
+          <button
+            type="button"
+            className={styles.calendarHeaderBtn}
+            onClick={this.nextMonth}
+          >
             »
           </button>
         </div>

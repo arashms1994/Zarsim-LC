@@ -1,17 +1,33 @@
-import * as moment from 'moment-jalaali';
+import * as moment from "moment-jalaali";
 
-moment.loadPersian({ dialect: 'persian-modern', usePersianDigits: false });
+moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
 
-export function getTodayPersianDate(): { year: number; month: number; day: number } {
+export function getJalaaliMonthLength(year: number, month: number): number {
+  if (month <= 6) return 31;
+  if (month <= 11) return 30;
+
+  const isLeap = moment.jIsLeapYear(year);
+  return isLeap ? 30 : 29;
+}
+
+export function getTodayPersianDate(): {
+  year: number;
+  month: number;
+  day: number;
+} {
   const m = moment();
   return {
-    year: parseInt(m.format('jYYYY'), 10),
-    month: parseInt(m.format('jM'), 10),
-    day: parseInt(m.format('jD'), 10),
+    year: parseInt(m.format("jYYYY"), 10),
+    month: parseInt(m.format("jM"), 10),
+    day: parseInt(m.format("jD"), 10),
   };
 }
 
-export function formatPersianDate(year: number, month: number, day: number): string {
+export function formatPersianDate(
+  year: number,
+  month: number,
+  day: number
+): string {
   return `${pad(year)}/${pad(month)}/${pad(day)}`;
 }
 
