@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./FileUploader.module.scss";
+import { BASE_URL } from "../api/BaseUrl";
 
 export class FileUploader extends React.Component<any, any> {
   private inputId: string;
@@ -53,13 +54,12 @@ export class FileUploader extends React.Component<any, any> {
     const subFolder = this.props.subFolder;
     const isSend = this.props.title === "فایل ارسالی";
     const subTypeFolder = isSend ? "send" : "recive";
-    const webUrl = "https://crm.zarsim.com";
     const libraryName = "Attach1";
     const fullFolderPath = `${libraryName}/${orderNumber}/${subFolder}/${subTypeFolder}`;
 
     try {
       // گرفتن Digest برای آپلود در SharePoint
-      const contextInfo = await fetch(`${webUrl}/_api/contextinfo`, {
+      const contextInfo = await fetch(`${BASE_URL}/_api/contextinfo`, {
         method: "POST",
         headers: { Accept: "application/json;odata=verbose" },
       });
@@ -68,7 +68,7 @@ export class FileUploader extends React.Component<any, any> {
 
       // ایجاد فولدرها به ترتیب
       const createFolder = (path: string) =>
-        fetch(`${webUrl}/_api/web/folders/add('${path}')`, {
+        fetch(`${BASE_URL}/_api/web/folders/add('${path}')`, {
           method: "POST",
           headers: {
             Accept: "application/json;odata=verbose",
@@ -86,7 +86,7 @@ export class FileUploader extends React.Component<any, any> {
 
       // آپلود فایل
       const uploadRes = await fetch(
-        `${webUrl}/_api/web/GetFolderByServerRelativeUrl('${fullFolderPath}')/Files/add(overwrite=true, url='${cleanFileName}')`,
+        `${BASE_URL}/_api/web/GetFolderByServerRelativeUrl('${fullFolderPath}')/Files/add(overwrite=true, url='${cleanFileName}')`,
         {
           method: "POST",
           body: arrayBuffer,
@@ -117,9 +117,11 @@ export class FileUploader extends React.Component<any, any> {
   render() {
     return (
       <div className={styles.uploaderDiv}>
-        <label htmlFor={this.inputId} className={styles.fileUploaderLabel}>انتخاب فایل</label>
+        <label htmlFor={this.inputId} className={styles.fileUploaderLabel}>
+          انتخاب فایل
+        </label>
         <input
-        className={styles.fileUploaderInput}
+          className={styles.fileUploaderInput}
           id={this.inputId}
           type="file"
           ref={(ref) => (this.fileInputRef = ref)}
@@ -135,22 +137,20 @@ export class FileUploader extends React.Component<any, any> {
           }}
         />
 
-     
-          {this.state.selectedFile ? (
-            <div className={styles.fileInfo}>
-              <p className={styles.fileName}>{this.state.selectedFile.name}</p>
-              <div
-                className={styles.removeFileBtn}
-                onClick={this.clearFile}
-                aria-label="پاک کردن فایل"
-              >
-                ×
-              </div>
+        {this.state.selectedFile ? (
+          <div className={styles.fileInfo}>
+            <p className={styles.fileName}>{this.state.selectedFile.name}</p>
+            <div
+              className={styles.removeFileBtn}
+              onClick={this.clearFile}
+              aria-label="پاک کردن فایل"
+            >
+              ×
             </div>
-          ) : (
-            <p className={styles.fileName}>هنوز فایلی انتخاب نشده</p>
-          )}
-       
+          </div>
+        ) : (
+          <p className={styles.fileName}>هنوز فایلی انتخاب نشده</p>
+        )}
 
         {this.state.uploadStatus && (
           <div

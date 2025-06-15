@@ -1,6 +1,7 @@
+import { BASE_URL } from "../api/BaseUrl";
+
 export async function getDigest(): Promise<string> {
-  const webUrl = "https://portal.zarsim.com";
-  return fetch(`${webUrl}/_api/contextinfo`, {
+  return fetch(`${BASE_URL}/_api/contextinfo`, {
     method: "POST",
     headers: { Accept: "application/json;odata=verbose" },
   })

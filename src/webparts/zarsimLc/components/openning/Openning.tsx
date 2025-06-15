@@ -28,6 +28,7 @@ export default class Openning extends React.Component<{}, any> {
 
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
     try {
       await AddToOpenningDate(this.state);
       alert("اطلاعات با موفقیت ثبت شد.");
