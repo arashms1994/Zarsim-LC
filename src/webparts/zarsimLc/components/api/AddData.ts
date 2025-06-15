@@ -1,11 +1,24 @@
 import { IOpenningState } from "../IZarsimLcProps";
-import { getDigest } from "../utils/GeatDigest";
+import { getDigest } from "../utils/GetDigest";
+import { BASE_URL } from "./BaseUrl";
 
 export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
-  const digest = await getDigest();
+    const listName = "LC_Openning";
+    const itemType = `SP.Data.${listName}ListItem`;
+    const digest = await getDigest();
+
+  console.log("Sending data:", {
+    Title: "اعتبار اسنادی",
+    LC_Number: state.LCNumber,
+    Total_Price: state.LCTotalPrice,
+    Openning_Date: state.LCOpenningDate,
+    Communication_Date: state.LCCommunicationDate,
+    Settlement_Period: state.LCSettlementDate,
+    Origin_Openning_Date: state.LCOriginOpenningDate,
+  });
 
   const response = await fetch(
-    "http://portal/_api/web/lists/getbytitle('LC_Openning')/items",
+    `${BASE_URL}/_api/web/lists/getbytitle('${listName}')/items`,
     {
       method: "POST",
       headers: {
@@ -14,14 +27,14 @@ export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
         "X-RequestDigest": digest,
       },
       body: JSON.stringify({
-        __metadata: { type: "SP.Data.LC_OpenningListItem" },
+        __metadata: { type: itemType },
         Title: "اعتبار اسنادی",
-        LC_Number: String(state.LCNumber),
-        Total_Price: String(state.LCTotalPrice),
-        Openning_Date: String(state.LCOpenningDate),
-        Communication_Date: String(state.LCCommunicationDate),
-        Settlement_Period: String(state.LCSettlementDate),
-        Origin_Openning_Date: String(state.LCOriginOpenningDate),
+        // LC_Number: String(state.LCNumber),
+        // Total_Price: String(state.LCTotalPrice),
+        // Openning_Date: String(state.LCOpenningDate),
+        // Communication_Date: String(state.LCCommunicationDate),
+        // Settlement_Period: String(state.LCSettlementDate),
+        // Origin_Openning_Date: String(state.LCOriginOpenningDate),
       }),
     }
   );

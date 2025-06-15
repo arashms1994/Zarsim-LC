@@ -6,6 +6,7 @@ import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 import { IOpenningState } from "../IZarsimLcProps";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";
 import { AddToOpenningDate } from "../api/AddData";
+import { getOpenningListItems } from "../api/GetData";
 
 export default class Openning extends React.Component<{}, any> {
   state: IOpenningState = {
@@ -28,7 +29,7 @@ export default class Openning extends React.Component<{}, any> {
 
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     try {
       await AddToOpenningDate(this.state);
       alert("اطلاعات با موفقیت ثبت شد.");
@@ -37,6 +38,11 @@ export default class Openning extends React.Component<{}, any> {
       alert("خطایی در ثبت اطلاعات رخ داد.");
     }
   };
+
+  async componentDidMount() {
+    const opnenings = await getOpenningListItems();
+    console.log("opennings:", opnenings);
+  }
 
   render() {
     return (
