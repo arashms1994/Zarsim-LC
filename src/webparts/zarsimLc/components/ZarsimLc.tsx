@@ -1,9 +1,13 @@
 import * as React from "react";
 import styles from "./ZarsimLc.module.scss";
 import { IZarsimLcProps } from "./IZarsimLcProps";
-require("./Font.css")
+require("./Font.css");
 
 export default class ZarsimLc extends React.Component<IZarsimLcProps, {}> {
+  async componentDidMount() {
+    console.log("hiiiiii");
+  }
+  
   public render(): React.ReactElement<IZarsimLcProps> {
     return (
       <div className={styles.container}>
