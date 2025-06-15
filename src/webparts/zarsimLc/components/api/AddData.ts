@@ -3,9 +3,11 @@ import { getDigest } from "../utils/GetDigest";
 import { BASE_URL } from "./BaseUrl";
 
 export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
-    const listName = "LC_Openning";
-    const itemType = `SP.Data.${listName}ListItem`;
-    const digest = await getDigest();
+  const listName = "LC_Openning";
+  const itemType = `SP.Data.LC_x005f_OpenningListItem`;
+  const digest = await getDigest();
+
+  console.log("itemType:", itemType);
 
   console.log("Sending data:", {
     Title: "اعتبار اسنادی",
@@ -29,12 +31,12 @@ export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
       body: JSON.stringify({
         __metadata: { type: itemType },
         Title: "اعتبار اسنادی",
-        // LC_Number: String(state.LCNumber),
-        // Total_Price: String(state.LCTotalPrice),
+        LC_Number: String(state.LCNumber),
+        Total_Price: String(state.LCTotalPrice),
+        Settlement_Period: String(state.LCSettlementDate),
+        Origin_Openning_Date: String(state.LCOriginOpenningDate),
         // Openning_Date: String(state.LCOpenningDate),
         // Communication_Date: String(state.LCCommunicationDate),
-        // Settlement_Period: String(state.LCSettlementDate),
-        // Origin_Openning_Date: String(state.LCOriginOpenningDate),
       }),
     }
   );
