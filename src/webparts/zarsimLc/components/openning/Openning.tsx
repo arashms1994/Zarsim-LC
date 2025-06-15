@@ -7,6 +7,7 @@ import { IOpenningState } from "../IZarsimLcProps";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";
 import { AddToOpenningDate } from "../api/AddData";
 import { getOpenningListItems } from "../api/GetData";
+import { getDigest } from "../utils/GetDigest";
 
 export default class Openning extends React.Component<{}, any> {
   state: IOpenningState = {
@@ -40,6 +41,8 @@ export default class Openning extends React.Component<{}, any> {
   };
 
   async componentDidMount() {
+    const digest = await getDigest();
+    console.log("digest:", digest);
     const opnenings = await getOpenningListItems();
     console.log("opennings:", opnenings);
   }

@@ -1,6 +1,7 @@
 import * as React from "react";
 import styles from "./FileUploader.module.scss";
 import { BASE_URL } from "../api/BaseUrl";
+import { getDigest } from "../utils/GetDigest";
 
 export class FileUploader extends React.Component<any, any> {
   private inputId: string;
@@ -54,17 +55,11 @@ export class FileUploader extends React.Component<any, any> {
     const subFolder = this.props.subFolder;
     const isSend = this.props.title === "فایل ارسالی";
     const subTypeFolder = isSend ? "send" : "recive";
-    const libraryName = "Attach1";
+    const libraryName = "LC_AttachFiles";
     const fullFolderPath = `${libraryName}/${orderNumber}/${subFolder}/${subTypeFolder}`;
 
     try {
-      // گرفتن Digest برای آپلود در SharePoint
-      const contextInfo = await fetch(`${BASE_URL}/_api/contextinfo`, {
-        method: "POST",
-        headers: { Accept: "application/json;odata=verbose" },
-      });
-      const data = await contextInfo.json();
-      const digest = data.d.GetContextWebInformation.FormDigestValue;
+      const digest = await getDigest();
 
       // ایجاد فولدرها به ترتیب
       const createFolder = (path: string) =>
