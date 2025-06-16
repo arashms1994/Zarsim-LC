@@ -46,30 +46,11 @@ export async function getOpenningListItems() {
   };
 }
 
-export async function getCustomerFactor() {
+export async function getCustomerFactor(factorNumber: string) {
   const listTitle = "customer_factor";
 
-  const metadataRes = await fetch(
-    `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json;odata=verbose",
-      },
-    }
-  );
-
-  if (!metadataRes.ok) {
-    const err = await metadataRes.text();
-    throw new Error("خطا در گرفتن metadata لیست: " + err);
-  }
-
-  const metadataData = await metadataRes.json();
-  const entityType = metadataData.d.ListItemEntityTypeFullName;
-  console.log("Entity Type:", entityType);
-
   const itemsRes = await fetch(
-    `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items`,
+    `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items?$filter=Title eq '${factorNumber}'`,
     {
       method: "GET",
       headers: {
@@ -83,12 +64,11 @@ export async function getCustomerFactor() {
     throw new Error("خطا در گرفتن آیتم‌ها: " + err);
   }
 
-  const itemsData = await itemsRes.json();
-  console.log("آیتم‌ها:", itemsData.d.results);
+  const itemData = await itemsRes.json();
+  console.log("آیتم‌ها:", itemData.d.results);
 
   return {
-    entityType,
-    items: itemsData.d.results,
+    item: itemData.d.results,
   };
 }
 
@@ -137,5 +117,3 @@ export async function getCustomerFactorDetails() {
     items: itemsData.d.results,
   };
 }
-
-

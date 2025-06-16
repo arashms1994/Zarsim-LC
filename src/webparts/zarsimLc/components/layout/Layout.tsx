@@ -6,6 +6,7 @@ import {
   goPeyment,
   goPreInvoice,
 } from "../utils/ChangeTabs";
+import { getCustomerFactor } from "../api/GetData";
 
 export class Layout extends React.Component<any, any> {
   constructor(props) {
@@ -29,6 +30,9 @@ export class Layout extends React.Component<any, any> {
   async componentDidMount() {
     const params = new URLSearchParams(window.location.search);
     const factoNumber = params.get("Factor_ID");
+
+    const factor = await getCustomerFactor("4-70105-1");
+    console.log(factor);
   }
 
   public render() {
