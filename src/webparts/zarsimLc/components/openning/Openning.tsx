@@ -1,7 +1,7 @@
 import * as React from "react";
 import styles from "./Openning.module.scss";
 import PersianDatePicker from "../persian-date-picker/PersianDatePicker";
-import { FileUploader } from "../file-uploader/FileUploader";
+import { FileUploader } from "../fileUploader/FileUploader";
 import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 import { IOpenningState } from "../IZarsimLcProps";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";

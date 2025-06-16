@@ -26,6 +26,11 @@ export class Layout extends React.Component<any, any> {
     return pathname === targetPath ? styles.activeTabBtn : styles.tabBtn;
   }
 
+  async componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    const factoNumber = params.get("Factor_ID");
+  }
+
   public render() {
     return (
       <div className={styles.Layout}>
