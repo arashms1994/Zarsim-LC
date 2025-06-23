@@ -31,12 +31,11 @@ export class Layout extends React.Component<any, any> {
     const params = new URLSearchParams(window.location.search);
     // const faktorNumber = params.get("Factor_ID");
     const faktorNumber = "4-70105-1";
-
-    this.setState({ faktorNumber: faktorNumber });
+    sessionStorage.setItem("faktorNumber", faktorNumber);
   }
 
   public render() {
-    const { faktorNumber, searchQuery } = this.state;
+    const {searchQuery } = this.state;
 
     return (
       <div className={styles.Layout}>
@@ -66,7 +65,6 @@ export class Layout extends React.Component<any, any> {
         <main>
           {React.cloneElement(this.props.children, {
             searchQuery: searchQuery,
-            faktorNumber: faktorNumber,
           })}
         </main>
       </div>

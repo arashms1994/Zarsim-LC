@@ -1,10 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
 import styles from "./CarryForm.module.scss";
-import CarryShownHistory from "./CarryShownHistory";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
-import { getCustomerFactorDetails } from "../api/GetData";
 
 export default class CarryForm extends Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -85,13 +83,14 @@ export default class CarryForm extends Component<any, any> {
   };
 
   async componentDidMount() {
-    const { faktorNumber } = this.props;
+    const faktorNumber = sessionStorage.getItem("faktorNumber");
     console.log("component:", faktorNumber);
+
+    this.setState({ faktorNumber });
   }
 
   render() {
-    const { faktorNumber } = this.props;
-    console.log("render:", faktorNumber);
+    const { faktorNumber } = this.state;
 
     return (
       <form className={styles.carryContainer} onSubmit={this.handleSubmit}>

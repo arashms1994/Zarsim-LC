@@ -11,6 +11,8 @@ export default class ChooseProduct extends React.Component<any, any> {
     this.state = {
       searchQuery: "",
       showMessage: false,
+      faktorNumber: "",
+      products: [],
     };
   }
 
@@ -31,15 +33,14 @@ export default class ChooseProduct extends React.Component<any, any> {
   // };
 
   async componentDidMount() {
-    const { faktorNumber } = this.props;
+    const faktorNumber = sessionStorage.getItem("faktorNumber");
     const products = await getCustomerFactorDetails(faktorNumber);
 
     console.log("component:", products, faktorNumber);
   }
 
   render() {
-    const { products, faktorNumber } = this.props;
-    const { searchQuery, showMessage } = this.state;
+    const { searchQuery, showMessage, products, faktorNumber } = this.state;
     console.log(faktorNumber);
 
     const filteredItems = searchQuery.trim()
@@ -57,21 +58,21 @@ export default class ChooseProduct extends React.Component<any, any> {
           {/* <SearchBar value={searchQuery} onChange={this.handleSearchChange} /> */}
         </div>
 
-        {/* <ul className={styles.shopPopupUL}>
-          {filteredItems.map((p) => (
-            <li className={styles.shopPopupItem} key={p.Code}>
-              <span className={styles.shopPopupIndex}>{p.Code}</span>
+        <ul className={styles.shopPopupUL}>
+          {products.map((p) => (
+            <li className={styles.shopPopupItem} key={p.Product}>
+              <span className={styles.shopPopupIndex}>{p.Product}</span>
               {p.Title}
               <button
                 type="button"
-                onClick={() => this.handleAddItem(p)}
+                // onClick={() => this.handleAddItem(p)}
                 className={styles.shopPopupAddButton}
               >
                 افزودن به سبد خرید
               </button>
             </li>
           ))}
-        </ul> */}
+        </ul>
 
         {showMessage && (
           <div className={styles.successMessage}>
