@@ -9,15 +9,21 @@ import { AddToOpenningDate } from "../api/AddData";
 import { getOpenningListItems } from "../api/GetData";
 import { getDigest } from "../utils/GetDigest";
 
-export default class Openning extends React.Component<{}, any> {
-  state: IOpenningState = {
-    LCTotalPrice: 0,
-    LCNumber: "",
-    LCOpenningDate: "",
-    LCCommunicationDate: "",
-    LCSettlementDate: "",
-    LCOriginOpenningDate: "",
-  };
+export default class Openning extends React.Component<any, any> {
+  private sendRef: FileUploader | null = null;
+  private reciveRef: FileUploader | null = null;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      LCTotalPrice: 0,
+      LCNumber: "",
+      LCOpenningDate: "",
+      LCCommunicationDate: "",
+      LCSettlementDate: "",
+      LCOriginOpenningDate: "",
+    };
+  }
 
   handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -41,6 +47,8 @@ export default class Openning extends React.Component<{}, any> {
   };
 
   render() {
+    const faktorNumber = this.props.faktorNumber;
+
     return (
       <div>
         <form className={styles.openningContainer} onSubmit={this.handleSubmit}>
@@ -159,7 +167,11 @@ export default class Openning extends React.Component<{}, any> {
             >
               آپلود ابلاغیه:
             </label>
-            <FileUploader />
+            <FileUploader
+              ref={(el) => (this.sendRef = el)}
+              orderNumber={faktorNumber}
+              subFolder={"گشایش و ابلاغ"}
+            />
           </div>
 
           <button type="submit" className={styles.openningSubmitButton}>

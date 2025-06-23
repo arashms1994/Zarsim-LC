@@ -13,6 +13,7 @@ export class Layout extends React.Component<any, any> {
     super(props);
     this.state = {
       searchQuery: "",
+      faktorNumber: "",
     };
 
     this.handleSearchChange = this.handleSearchChange.bind(this);
@@ -29,10 +30,12 @@ export class Layout extends React.Component<any, any> {
 
   async componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    const factoNumber = params.get("Factor_ID");
+    const customerFaktorNumber = params.get("Factor_ID");
 
-    const factor = await getCustomerFactor("4-70105-1");
-    console.log(factor);
+    const faktor = await getCustomerFactor("4-70105-1");
+    const faktorNumber = faktor.item.Title;
+
+    this.setState({ faktorNumber: faktorNumber });
   }
 
   public render() {
@@ -65,6 +68,7 @@ export class Layout extends React.Component<any, any> {
         <main>
           {React.cloneElement(this.props.children, {
             searchQuery: this.state.searchQuery,
+            faktorNumber: this.state.faktorNumber,
           })}
         </main>
       </div>

@@ -81,119 +81,74 @@ export default class CarryForm extends Component<any, any> {
   //   }
 
   render() {
+    const faktorNumber = this.props.faktorNumber;
+
     return (
-      <div className={styles.Form}>
-        <div className={styles.formContainer}>
-          <div className={styles.upladContainer}>
-            <FileUploader
-              ref={(el) => (this.reciveRef = el)}
-              orderNumber={this.props.parent_GUID}
-              subFolder={this.state.item_GUID}
-              title={"فایل دریافتی"}
-            />
-            <FileUploader
-              ref={(el) => (this.sendRef = el)}
-              orderNumber={this.props.parent_GUID}
-              subFolder={this.state.item_GUID}
-              title={"فایل ارسالی"}
-            />
-          </div>
-
-          <div className={styles.distributerCodeDiv}>
-            {this.props.distributerCode &&
-              this.props.distributerCode.trim() !== "" && (
-                <div className={styles.distributerCodeChildDiv}>
-                  <p className={styles.distributerCodeParaph}>
-                    کد نماینده:{" "}
-                    <span className={styles.distributerCodeSpan}>
-                      {this.props.distributerCode}
-                    </span>
-                  </p>
-                </div>
-              )}
-
-            <div className={styles.selectContainer}>
-              <select
-                value={this.state.Event_Type}
-                onChange={(event) =>
-                  this.setState({
-                    Event_Type: String(event.currentTarget.value),
-                  })
-                }
-                name="Event_Type"
-              >
-                <option value="chose" disabled>
-                  نوع رویداد
-                </option>
-                <option value="telegram">تلگرام</option>
-                <option value="whatsapp">واتساپ</option>
-                <option value="phoneNumber">تماس تلفنی</option>
-                <option value="email">ایمیل</option>
-                <option value="presental">حضوری</option>
-              </select>
-
-              <select
-                value={this.state.Order_Status}
-                onChange={(event) =>
-                  this.setState({
-                    Order_Status: String(event.currentTarget.value),
-                  })
-                }
-                name="Order_Status"
-              >
-                <option value="chose" disabled>
-                  وضعیت سفارش
-                </option>
-                <option value="درحال مذاکره">در حال مذاکره</option>
-                <option value="ارجاع به کارشناس">ارجاع به کارشناس</option>
-                <option value="نا موفق">ناموفق</option>
-              </select>
-            </div>
-          </div>
-
-          <textarea
-            placeholder="توضیحات ..."
-            value={this.state.Description}
-            onChange={(e) =>
-              this.setState({ Description: e.currentTarget.value })
-            }
+      <div className={styles.carryContainer}>
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود صورتحساب فروش:
+          </label>
+          <FileUploader
+            ref={(el) => (this.reciveRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
           />
-
-          <div className={styles.buttonsContainer}>
-            <div className={styles.buttonSave}>ذخیره</div>
-
-            <button type="button" className={styles.preInvoiceButton}>
-              ایجاد پیش فاکتور
-            </button>
-
-            {this.props.existLink === null ||
-            this.props.existLink === "" ||
-            this.props.existLink === undefined ? (
-              <p>testConditional</p>
-            ) : (
-              <a
-                href={this.props.existLink}
-                className={styles.preInvoiceButton}
-              >
-                مشاهده پیش فاکتور
-              </a>
-            )}
-          </div>
         </div>
 
-        <div className={styles.shownHistory}>
-          {this.state.Events.map((event, i) => (
-            <CarryShownHistory
-              key={i}
-              Description={event.Description}
-              Event_Type={event.Event_Type}
-              Display_Name={event.Display_Name}
-              Order_Status={event.Order_Status}
-              Created={event.Created}
-              parent_GUID={this.props.parent_GUID}
-              item_GUID={event.Title}
-            />
-          ))}
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود لیست دسته بندی:
+          </label>
+          <FileUploader
+            ref={(el) => (this.sendRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
+          />
+        </div>
+
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود گواهی بازرسی:
+          </label>
+          <FileUploader
+            ref={(el) => (this.sendRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
+          />
+        </div>
+
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود بارنامه:
+          </label>
+          <FileUploader
+            ref={(el) => (this.sendRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
+          />
+        </div>
+
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود برگه باسکول:
+          </label>
+          <FileUploader
+            ref={(el) => (this.sendRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
+          />
+        </div>
+
+        <div className={styles.carryDiv}>
+          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+            آپلود نامه رسمی شرکت زرسیم:
+          </label>
+          <FileUploader
+            ref={(el) => (this.sendRef = el)}
+            orderNumber={faktorNumber}
+            subFolder={"حمل و بارگیری"}
+          />
         </div>
       </div>
     );

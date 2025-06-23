@@ -65,10 +65,9 @@ export async function getCustomerFactor(factorNumber: string) {
   }
 
   const itemData = await itemsRes.json();
-  console.log("آیتم‌ها:", itemData.d.results);
 
   return {
-    item: itemData.d.results,
+    item: itemData.d.results.at(0),
   };
 }
 

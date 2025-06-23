@@ -53,10 +53,8 @@ export class FileUploader extends React.Component<any, any> {
 
     const orderNumber = this.props.orderNumber.replace(/[#%*<>?\/\\|]/g, "_");
     const subFolder = this.props.subFolder;
-    const isSend = this.props.title === "فایل ارسالی";
-    const subTypeFolder = isSend ? "send" : "recive";
     const libraryName = "LC_AttachFiles";
-    const fullFolderPath = `${libraryName}/${orderNumber}/${subFolder}/${subTypeFolder}`;
+    const fullFolderPath = `${libraryName}/${orderNumber}/${subFolder}`;
 
     try {
       const digest = await getDigest();
