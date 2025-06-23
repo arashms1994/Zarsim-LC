@@ -12,20 +12,13 @@ export default class Carry extends React.Component<any, any> {
     };
   }
 
-  async componentDidMount() {
-    const { faktorNumber } = await this.props;
-    const products = await getCustomerFactorDetails(faktorNumber);
-
-    console.log(products,faktorNumber);
-    this.setState({ products: products, faktorNumber: faktorNumber });
-  }
-
   public render() {
+    const { faktorNumber } = this.props;
+
     return (
       <div className={styles.container}>
         <CarryForm
-          faktorNumber={this.state.faktorNumber}
-          products={this.state.products}
+          faktorNumber={faktorNumber}
         />
       </div>
     );

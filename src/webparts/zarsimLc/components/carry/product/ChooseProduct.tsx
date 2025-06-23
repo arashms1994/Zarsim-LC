@@ -1,6 +1,6 @@
-
 import * as React from "react";
 import styles from "./ChooseProduct.module.scss";
+import { getCustomerFactorDetails } from "../../api/GetData";
 // import { Product, ShopPopUpProps } from "../IAgentFormProps";
 // import SearchBar from "../Search/SearchBar";
 // import { addToCart } from "../Crud/AddData";
@@ -14,25 +14,33 @@ export default class ChooseProduct extends React.Component<any, any> {
     };
   }
 
-  handleSearchChange = (e: any) => {
-    this.setState({ searchQuery: e.target.value });
-  };
+  // handleSearchChange = (e: any) => {
+  //   this.setState({ searchQuery: e.target.value });
+  // };
 
-  handleAddItem = async (item: any) => {
-    if (this.props.onItemAdded) {
-      this.props.onItemAdded();
-    }
+  // handleAddItem = async (item: any) => {
+  //   if (this.props.onItemAdded) {
+  //     this.props.onItemAdded();
+  //   }
 
-    this.setState({ showMessage: true });
+  //   this.setState({ showMessage: true });
 
-    setTimeout(() => {
-      this.setState({ showMessage: false });
-    }, 3000);
-  };
+  //   setTimeout(() => {
+  //     this.setState({ showMessage: false });
+  //   }, 3000);
+  // };
+
+  async componentDidMount() {
+    const { faktorNumber } = this.props;
+    const products = await getCustomerFactorDetails(faktorNumber);
+
+    console.log("component:", products, faktorNumber);
+  }
 
   render() {
-    const { products } = this.props;
+    const { products, faktorNumber } = this.props;
     const { searchQuery, showMessage } = this.state;
+    console.log(faktorNumber);
 
     const filteredItems = searchQuery.trim()
       ? products.filter(

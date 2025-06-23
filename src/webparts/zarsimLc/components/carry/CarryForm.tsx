@@ -4,6 +4,7 @@ import styles from "./CarryForm.module.scss";
 import CarryShownHistory from "./CarryShownHistory";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
+import { getCustomerFactorDetails } from "../api/GetData";
 
 export default class CarryForm extends Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -83,9 +84,14 @@ export default class CarryForm extends Component<any, any> {
     console.log("oookkkk");
   };
 
+  async componentDidMount() {
+    const { faktorNumber } = this.props;
+    console.log("component:", faktorNumber);
+  }
+
   render() {
-    const { faktorNumber, products } = this.props;
-    console.log(products);
+    const { faktorNumber } = this.props;
+    console.log("render:", faktorNumber);
 
     return (
       <form className={styles.carryContainer} onSubmit={this.handleSubmit}>
@@ -179,7 +185,7 @@ export default class CarryForm extends Component<any, any> {
               onClick={() => this.setState({ chooseProduct: false })}
             />
             <div className={styles.shopPopupContainor}>
-              <ChooseProduct />
+              <ChooseProduct faktorNumber={faktorNumber} />
 
               <button
                 className={styles.closeShopPopupBtn}
