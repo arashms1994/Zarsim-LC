@@ -32,15 +32,11 @@ export default class ChooseProduct extends React.Component<any, any> {
   //   }, 3000);
   // };
 
-  async componentDidMount() {
-    const faktorNumber = sessionStorage.getItem("faktorNumber");
-    const products = await getCustomerFactorDetails(faktorNumber);
-
-    console.log("component:", products, faktorNumber);
-  }
+ 
 
   render() {
-    const { searchQuery, showMessage, products, faktorNumber } = this.state;
+    const { searchQuery, showMessage, faktorNumber } = this.state;
+    const { products } = this.props;
     console.log(faktorNumber);
 
     const filteredItems = searchQuery.trim()
@@ -59,7 +55,7 @@ export default class ChooseProduct extends React.Component<any, any> {
         </div>
 
         <ul className={styles.shopPopupUL}>
-          {products.map((p) => (
+          {filteredItems.map((p) => (
             <li className={styles.shopPopupItem} key={p.Product}>
               <span className={styles.shopPopupIndex}>{p.Product}</span>
               {p.Title}

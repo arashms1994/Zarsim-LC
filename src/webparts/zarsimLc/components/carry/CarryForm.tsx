@@ -3,6 +3,7 @@ import { Component } from "react";
 import styles from "./CarryForm.module.scss";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
+import { getCustomerFactorDetails } from "../api/GetData";
 
 export default class CarryForm extends Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -16,6 +17,7 @@ export default class CarryForm extends Component<any, any> {
       Order_Status: "chose",
       Description: "",
       chooseProduct: false,
+      products: [],
       Events: [],
     };
   }
@@ -84,19 +86,20 @@ export default class CarryForm extends Component<any, any> {
 
   async componentDidMount() {
     const faktorNumber = sessionStorage.getItem("faktorNumber");
-    console.log("component:", faktorNumber);
+    const products = await getCustomerFactorDetails(faktorNumber);
 
-    this.setState({ faktorNumber });
+    this.setState({ products: products });
   }
 
   render() {
-    const { faktorNumber } = this.state;
+    const { faktorNumber, products } = this.state;
 
     return (
       <form className={styles.carryContainer} onSubmit={this.handleSubmit}>
         <div className={styles.carryInputContainer}>
           <div>
             <button
+            className={styles.carryAddProductButton}
               type="button"
               onClick={() => {
                 this.setState({ chooseProduct: true });
@@ -184,7 +187,7 @@ export default class CarryForm extends Component<any, any> {
               onClick={() => this.setState({ chooseProduct: false })}
             />
             <div className={styles.shopPopupContainor}>
-              <ChooseProduct faktorNumber={faktorNumber} />
+              <ChooseProduct faktorNumber={faktorNumber} products={products} />
 
               <button
                 className={styles.closeShopPopupBtn}

@@ -99,10 +99,19 @@
   }
 }
 
-.priceShown {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
+.carryAddProductButton {
+  border: none;
+  border-radius: 8px;
+  min-width: 200px;
+  padding: 8px 12px;
+  font-size: 18px;
+  font-weight: 600;
+  background-color: rgb(202, 30, 30);
+  color: white;
+  transition: all 300ms linear;
+  cursor: pointer;
+
+  &:hover {
+    background: #8d1b1b;
+  }
 }
