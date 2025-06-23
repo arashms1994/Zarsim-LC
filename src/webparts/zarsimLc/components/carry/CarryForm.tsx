@@ -3,6 +3,7 @@ import { Component } from "react";
 import styles from "./CarryForm.module.scss";
 import CarryShownHistory from "./CarryShownHistory";
 import { FileUploader } from "../fileUploader/FileUploader";
+import ChooseProduct from "./product/ChooseProduct";
 
 export default class CarryForm extends Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -15,11 +16,9 @@ export default class CarryForm extends Component<any, any> {
       Event_Type: "chose",
       Order_Status: "chose",
       Description: "",
+      chooseProduct: false,
       Events: [],
     };
-
-    // this.onEventAdd = this.onEventAdd.bind(this);
-    // this.loadData = this.loadData.bind(this);
   }
 
   //   async componentDidMount() {
@@ -79,12 +78,30 @@ export default class CarryForm extends Component<any, any> {
   //       console.error("خطا در ذخیره رویداد یا آپلود فایل:", error);
   //     }
   //   }
+  handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    console.log("oookkkk");
+  };
 
   render() {
-    const faktorNumber = this.props.faktorNumber;
+    const { faktorNumber, products } = this.props;
+    console.log(products);
 
     return (
-      <div className={styles.carryContainer}>
+      <form className={styles.carryContainer} onSubmit={this.handleSubmit}>
+        <div className={styles.carryInputContainer}>
+          <div>
+            <button
+              type="button"
+              onClick={() => {
+                this.setState({ chooseProduct: true });
+              }}
+            >
+              افزودن محصول از پیش فاکتور
+            </button>
+          </div>
+        </div>
+
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel} htmlFor="openningUploadFile">
             آپلود صورتحساب فروش:
@@ -150,7 +167,32 @@ export default class CarryForm extends Component<any, any> {
             subFolder={"حمل و بارگیری"}
           />
         </div>
-      </div>
+
+        <button type="submit" className={styles.carrySubmitButton}>
+          ثبت اطلاعات
+        </button>
+
+        {this.state.chooseProduct && (
+          <div>
+            <div
+              className={styles.shopPopupBackdrop}
+              onClick={() => this.setState({ chooseProduct: false })}
+            />
+            <div className={styles.shopPopupContainor}>
+              <ChooseProduct />
+
+              <button
+                className={styles.closeShopPopupBtn}
+                onClick={() => {
+                  this.setState({ chooseProduct: false });
+                }}
+              >
+                بستن
+              </button>
+            </div>
+          </div>
+        )}
+      </form>
     );
   }
 }

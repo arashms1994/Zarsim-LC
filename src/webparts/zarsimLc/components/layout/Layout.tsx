@@ -6,7 +6,6 @@ import {
   goPeyment,
   goPreInvoice,
 } from "../utils/ChangeTabs";
-import { getCustomerFactor } from "../api/GetData";
 
 export class Layout extends React.Component<any, any> {
   constructor(props) {
@@ -30,15 +29,15 @@ export class Layout extends React.Component<any, any> {
 
   async componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    const customerFaktorNumber = params.get("Factor_ID");
-
-    const faktor = await getCustomerFactor("4-70105-1");
-    const faktorNumber = faktor.item.Title;
+    // const faktorNumber = params.get("Factor_ID");
+    const faktorNumber = "4-70105-1";
 
     this.setState({ faktorNumber: faktorNumber });
   }
 
   public render() {
+    const { faktorNumber, searchQuery } = this.state;
+
     return (
       <div className={styles.Layout}>
         <header className={styles.Header}>
@@ -64,11 +63,10 @@ export class Layout extends React.Component<any, any> {
             پیگیری تعهد پرداخت{" "}
           </button>
         </header>
-
         <main>
           {React.cloneElement(this.props.children, {
-            searchQuery: this.state.searchQuery,
-            faktorNumber: this.state.faktorNumber,
+            searchQuery: searchQuery,
+            faktorNumber: faktorNumber,
           })}
         </main>
       </div>
