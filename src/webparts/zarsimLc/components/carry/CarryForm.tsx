@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import styles from "./CarryForm.module.scss";
+import styles from "./Carry.module.scss";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
 import { getCustomerFactorDetails } from "../api/GetData";

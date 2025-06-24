@@ -3,11 +3,8 @@ import styles from "./Openning.module.scss";
 import PersianDatePicker from "../persian-date-picker/PersianDatePicker";
 import { FileUploader } from "../fileUploader/FileUploader";
 import { formatNumberWithComma } from "../utils/formatNumberWithComma";
-import { IOpenningState } from "../IZarsimLcProps";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";
 import { AddToOpenningDate } from "../api/AddData";
-import { getOpenningListItems } from "../api/GetData";
-import { getDigest } from "../utils/GetDigest";
 
 export default class Openning extends React.Component<any, any> {
   private sendRef: FileUploader | null = null;

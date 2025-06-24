@@ -12,7 +12,9 @@ export interface IOpenningState {
 }
 
 export interface IZarsimLcProps {
-  description: string;
+  faktorNumber: string;
+  products: Array<any>;
+  customer: Array<any>;
 }
 
 export interface PersianDatePickerProps {
