@@ -1,0 +1,44 @@
+.faktorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.faktorHeaderDiv {
+  border: 2px solid rgb(107, 107, 107);
+  border-radius: 8px;
+  padding: 10px 20px;
+}
+
+.faktorHero {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 30px;
+  border-bottom: 2px solid rgb(107, 107, 107);
+}
+
+.faktorParaphDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.faktorLabel {
+    color: rgb(109, 109, 109);
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.faktorParaph {
+    color: rgb(66, 66, 66);
+    font-size: 22px;
+    font-weight: 500;
+}
