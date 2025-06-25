@@ -10,22 +10,18 @@ export default class ZarsimLc extends React.Component<IZarsimLcProps, any> {
   constructor(props) {
     super(props);
     this.state = {
-      faktorNumber: "",
       products: [],
       customer: {},
     };
   }
 
   async componentDidMount() {
-    const params = new URLSearchParams(window.location.search);
-    // const faktorNumber = params.get("Factor_ID");
-    const faktorNumber = "4-70105-1";
-    await this.setState({
-      faktorNumber: faktorNumber,
-    });
-
+    console.log("faktorNumber from props:", this.props.faktorNumber);
+    const { faktorNumber } = this.props;
     const customer = await getCustomerFactor(faktorNumber);
     const products = await getCustomerFactorDetails(faktorNumber);
+
+    console.log(faktorNumber);
 
     this.setState({
       products: products,

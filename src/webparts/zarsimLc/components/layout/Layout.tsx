@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./Layout.module.scss";
+import classNames from "classnames";
 import {
   goCarry,
   goOpenning,
@@ -8,34 +9,32 @@ import {
 } from "../utils/ChangeTabs";
 
 export class Layout extends React.Component<any, any> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       searchQuery: "",
       faktorNumber: "",
     };
-
-    this.handleSearchChange = this.handleSearchChange.bind(this);
-  }
-
-  handleSearchChange(event) {
-    this.setState({ searchQuery: event.target.value });
-  }
-
-  getButtonClass(targetPath) {
-    const { pathname } = this.props.location;
-    return pathname === targetPath ? styles.activeTabBtn : styles.tabBtn;
   }
 
   async componentDidMount() {
     const params = new URLSearchParams(window.location.search);
-    // const faktorNumber = params.get("Factor_ID");
-    const faktorNumber = "4-70105-1";
-    sessionStorage.setItem("faktorNumber", faktorNumber);
+    const faktorNumber = params.get("Factor_ID") || "4-70105-1";
+    this.setState({ faktorNumber });
   }
 
-  public render() {
-    const {searchQuery } = this.state;
+  handleSearchChange = (event: any) => {
+    this.setState({ searchQuery: event.target.value });
+  };
+
+  getButtonClass = (targetPath: string) => {
+    return classNames(styles.tabBtn, {
+      [styles.activeTabBtn]: this.props.location.pathname === targetPath,
+    });
+  };
+
+  render() {
+    const { searchQuery, faktorNumber } = this.state;
 
     return (
       <div className={styles.Layout}>
@@ -59,12 +58,14 @@ export class Layout extends React.Component<any, any> {
             onClick={goPeyment}
             className={this.getButtonClass("/payment")}
           >
-            پیگیری تعهد پرداخت{" "}
+            پیگیری تعهد پرداخت
           </button>
         </header>
+
         <main>
           {React.cloneElement(this.props.children, {
-            searchQuery: searchQuery,
+            searchQuery,
+            faktorNumber,
           })}
         </main>
       </div>
