@@ -19,16 +19,32 @@ export default class FaktorDetail extends React.Component<any, any> {
         <div className={styles.faktorHeaderDiv}>
           <h1>جزئیات پیش فاکتور</h1>
         </div>
-        {products.map((p) => (
-          <div style={{display:"flex", justifyContent:"space-around"}} key={p.id}>
-            <p>{p.Title}</p>
-            <p>{p.colertitle}</p>
-            <p>{p.Category}</p>
-            <p>{p.Packing}</p>
-            <p>{p.Price}</p>
-            <p>{p.Value}</p>
-          </div>
-        ))}
+        <table className={styles.faktorTable}>
+          <thead className={styles.faktorTableHeader}>
+            <th className={styles.faktorTableHeaderRow}>
+              <td className={styles.faktorTableHeaderCell}>ردیف</td>
+              <td className={styles.faktorTableHeaderCell}>شرح محصول</td>
+              <td className={styles.faktorTableHeaderCell}>رنگ</td>
+              <td className={styles.faktorTableHeaderCell}>دسته بندی</td>
+              <td className={styles.faktorTableHeaderCell}>بسته بندی</td>
+              <td className={styles.faktorTableHeaderCell}>قیمت واحد</td>
+              <td className={styles.faktorTableHeaderCell}>بهای کالا</td>
+            </th>
+          </thead>
+          <tbody className={styles.faktorTableBody}>
+            {products.map((p, i) => (
+              <tr className={styles.faktorTableBodyRow} key={p.id}>
+                <td className={styles.faktorTableBodyCell}>{i + 1}</td>
+                <td className={styles.faktorTableBodyCell}>{p.Title}</td>
+                <td className={styles.faktorTableBodyCell}>{p.colertitle}</td>
+                <td className={styles.faktorTableBodyCell}>{p.Category}</td>
+                <td className={styles.faktorTableBodyCell}>{p.Packing}</td>
+                <td className={styles.faktorTableBodyCell}>{p.Price}</td>
+                <td className={styles.faktorTableBodyCell}>{p.Value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }

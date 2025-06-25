@@ -22,63 +22,6 @@ export default class CarryForm extends Component<any, any> {
     };
   }
 
-  //   async componentDidMount() {
-  //     if (this.props.parent_GUID) {
-  //       this.loadData(this.props.parent_GUID);
-  //     }
-  //   }
-
-  //   async componentDidUpdate(prevProps: any) {
-  //     if (
-  //       prevProps.parent_GUID !== this.props.parent_GUID &&
-  //       this.props.parent_GUID
-  //     ) {
-  //       this.loadData(this.props.parent_GUID);
-  //     }
-  //   }
-
-  //   async loadData(guid: string) {
-  //     const EventsData = await loadEvent(guid);
-  //     const newGUID = uuidv4();
-  //     this.setState({
-  //       Events: EventsData.reverse(),
-  //       item_GUID: newGUID,
-  //     });
-  //   }
-
-  //   async onEventAdd() {
-  //     try {
-  //       if (this.reciveRef) {
-  //         await this.reciveRef.uploadFile();
-  //       }
-  //       if (this.sendRef) {
-  //         await this.sendRef.uploadFile();
-  //       }
-
-  //       const { item_GUID, Event_Type, Order_Status, Description } = this.state;
-
-  //       await handleAddEvent(
-  //         item_GUID,
-  //         this.props.parent_GUID,
-  //         Event_Type,
-  //         Order_Status,
-  //         Description
-  //       );
-
-  //       await this.loadData(this.props.parent_GUID);
-
-  //       this.setState({
-  //         Event_Type: "chose",
-  //         Order_Status: "chose",
-  //         Description: "",
-  //       });
-
-  //       if (this.reciveRef) this.reciveRef.clearFile();
-  //       if (this.sendRef) this.sendRef.clearFile();
-  //     } catch (error) {
-  //       console.error("خطا در ذخیره رویداد یا آپلود فایل:", error);
-  //     }
-  //   }
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log("oookkkk");
@@ -99,7 +42,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryInputContainer}>
           <div>
             <button
-            className={styles.carryAddProductButton}
+              className={styles.carryAddProductButton}
               type="button"
               onClick={() => {
                 this.setState({ chooseProduct: true });
@@ -204,3 +147,61 @@ export default class CarryForm extends Component<any, any> {
     );
   }
 }
+
+//   async componentDidMount() {
+//     if (this.props.parent_GUID) {
+//       this.loadData(this.props.parent_GUID);
+//     }
+//   }
+
+//   async componentDidUpdate(prevProps: any) {
+//     if (
+//       prevProps.parent_GUID !== this.props.parent_GUID &&
+//       this.props.parent_GUID
+//     ) {
+//       this.loadData(this.props.parent_GUID);
+//     }
+//   }
+
+//   async loadData(guid: string) {
+//     const EventsData = await loadEvent(guid);
+//     const newGUID = uuidv4();
+//     this.setState({
+//       Events: EventsData.reverse(),
+//       item_GUID: newGUID,
+//     });
+//   }
+
+//   async onEventAdd() {
+//     try {
+//       if (this.reciveRef) {
+//         await this.reciveRef.uploadFile();
+//       }
+//       if (this.sendRef) {
+//         await this.sendRef.uploadFile();
+//       }
+
+//       const { item_GUID, Event_Type, Order_Status, Description } = this.state;
+
+//       await handleAddEvent(
+//         item_GUID,
+//         this.props.parent_GUID,
+//         Event_Type,
+//         Order_Status,
+//         Description
+//       );
+
+//       await this.loadData(this.props.parent_GUID);
+
+//       this.setState({
+//         Event_Type: "chose",
+//         Order_Status: "chose",
+//         Description: "",
+//       });
+
+//       if (this.reciveRef) this.reciveRef.clearFile();
+//       if (this.sendRef) this.sendRef.clearFile();
+//     } catch (error) {
+//       console.error("خطا در ذخیره رویداد یا آپلود فایل:", error);
+//     }
+//   }
