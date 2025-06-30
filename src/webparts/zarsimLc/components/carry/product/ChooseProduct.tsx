@@ -1,9 +1,7 @@
 import * as React from "react";
 import styles from "./ChooseProduct.module.scss";
-import { getCustomerFactorDetails } from "../../api/GetData";
-// import { Product, ShopPopUpProps } from "../IAgentFormProps";
-// import SearchBar from "../Search/SearchBar";
-// import { addToCart } from "../Crud/AddData";
+import { AddToCarryReceipt } from "../../api/AddData";
+import SearchBar from "../search/Search";
 
 export default class ChooseProduct extends React.Component<any, any> {
   constructor(props: any) {
@@ -16,26 +14,14 @@ export default class ChooseProduct extends React.Component<any, any> {
     };
   }
 
-  // handleSearchChange = (e: any) => {
-  //   this.setState({ searchQuery: e.target.value });
-  // };
-
-  // handleAddItem = async (item: any) => {
-  //   if (this.props.onItemAdded) {
-  //     this.props.onItemAdded();
-  //   }
-
-  //   this.setState({ showMessage: true });
-
-  //   setTimeout(() => {
-  //     this.setState({ showMessage: false });
-  //   }, 3000);
-  // };
+  handleSearchChange = (e: any) => {
+    this.setState({ searchQuery: e.target.value });
+  };
 
   render() {
     const { searchQuery, showMessage } = this.state;
-    const { products, faktorNumber } = this.props;
-
+    const { products, faktorNumber, onAddProduct } = this.props;
+    console.log(products);
     if (!products || Object.keys(products).length === 0) {
       return <div>در حال بارگذاری...</div>;
     }
@@ -48,22 +34,23 @@ export default class ChooseProduct extends React.Component<any, any> {
             (item.Code && item.Code.includes(searchQuery))
         )
       : products;
+      console.log("تعداد محصولات فیلتر شده:", filteredItems.length);
 
     return (
       <div className={styles.shopPopupDiv}>
         <div className={styles.shopPopupHeader}>
           <h2 className={styles.shopPopupHeading}>لیست محصولات</h2>
-          {/* <SearchBar value={searchQuery} onChange={this.handleSearchChange} /> */}
+          <SearchBar value={searchQuery} onChange={this.handleSearchChange} />
         </div>
 
         <ul className={styles.shopPopupUL}>
-          {filteredItems.map((p) => (
-            <li className={styles.shopPopupItem} key={p.Product}>
+          {filteredItems.map((p,i) => (
+            <li className={styles.shopPopupItem} key={i}>
               <span className={styles.shopPopupIndex}>{p.Product}</span>
               {p.Title}
               <button
                 type="button"
-                // onClick={() => this.handleAddItem(p)}
+                onClick={() => onAddProduct(p)}
                 className={styles.shopPopupAddButton}
               >
                 افزودن به سبد خرید

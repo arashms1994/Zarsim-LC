@@ -3,7 +3,8 @@ import { Component } from "react";
 import styles from "./Carry.module.scss";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
-import { getCustomerFactorDetails } from "../api/GetData";
+import { getCustomerFactorDetails, getLCNumber } from "../api/GetData";
+import { AddToCarryReceipt } from "../api/AddData";
 
 export default class CarryForm extends Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -14,38 +15,180 @@ export default class CarryForm extends Component<any, any> {
     this.state = {
       products: [],
       faktorNumber: "",
+      selectedProducts: [],
+      productCounts: {},
+      lcNumber: "",
     };
   }
 
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("oookkkk");
+
+    const { lcNumber, selectedProducts, productCounts } = this.state;
+
+    try {
+
+      for (const product of selectedProducts) {
+        const countStr = productCounts[product.Product] || "0";
+        const count = parseFloat(countStr);
+        const price = parseFloat(product.Price);
+
+        if (isNaN(count) || count <= 0) {
+          continue;
+        }
+
+        if (isNaN(price) || price <= 0) {
+          console.warn(`قیمت محصول ${product.Title} نامعتبر است`);
+          continue;
+        }
+
+        await AddToCarryReceipt({
+          Title: product.Title,
+          GUID: localStorage.getItem("GUID") || "",
+          TotalPrice: price * count,
+          LCNumber: lcNumber,
+          Price: price,
+          Count: count,
+        });
+      }
+
+      alert("اطلاعات با موفقیت ثبت شد.");
+      this.setState({
+        selectedProducts: [],
+        productCounts: {},
+      });
+    } catch (error) {
+      console.error("خطا در ثبت اطلاعات:", error);
+      alert("خطایی در ثبت اطلاعات رخ داد.");
+    }
   };
 
-  async componentDidMount() {
-    const { faktorNumber } = this.props;
-    const products = await getCustomerFactorDetails(faktorNumber);
+  handleRemoveProduct = (productId: string) => {
+    this.setState((prevState) => {
+      const updatedProducts = prevState.selectedProducts.filter(
+        (item) => item.Product !== productId
+      );
 
-    console.log("faktorNumber", faktorNumber);
-    this.setState({ products, faktorNumber });
-  }
+      const updatedCounts: any = {};
+      for (let key in prevState.productCounts) {
+        if (key !== productId) {
+          updatedCounts[key] = prevState.productCounts[key];
+        }
+      }
+
+      return {
+        selectedProducts: updatedProducts,
+        productCounts: updatedCounts,
+      };
+    });
+  };
+
+  handleCountChange = (productKey: string, value: string) => {
+    this.setState((prevState: any) => ({
+      productCounts: {
+        ...prevState.productCounts,
+        [productKey]: value,
+      },
+    }));
+  };
+
+  handleAddProduct = (product: any) => {
+    this.setState((prevState: any) => ({
+      selectedProducts: [...prevState.selectedProducts, product],
+      chooseProduct: false,
+    }));
+  };
+
+async componentDidMount() {
+  const { faktorNumber } = this.props;
+  const products = await getCustomerFactorDetails(faktorNumber);
+  console.log(products, "products");
+
+  setTimeout(async () => {
+    const lcNumber = await getLCNumber(faktorNumber);
+    this.setState({ lcNumber });
+  }, 1000);
+
+  this.setState({ products, faktorNumber });
+}
+
 
   render() {
     const { products, faktorNumber } = this.state;
 
     return (
-      <form className={styles.carryContainer} onSubmit={this.handleSubmit}>
-        <div className={styles.caryReceiptContainer}>
-            <button
-              className={styles.carryAddProductButton}
-              type="button"
-              onClick={() => {
-                this.setState({ chooseProduct: true });
-              }}
-            >
-              +
-            </button>
-        </div>
+      <div className={styles.carryContainer}>
+        <form className={styles.carryForm} onSubmit={this.handleSubmit}>
+          <div className={styles.caryReceiptContainer}>
+            <div className={styles.carrySelectedProductContainer}>
+              <div className={styles.carrySelectedProductUL}>
+                {this.state.selectedProducts.length === 0 ? (
+                  <p className={styles.carrySelectedProductParaph}>
+                    هنوز محصولی انتخاب نشده است
+                  </p>
+                ) : (
+                  this.state.selectedProducts.map((item) => (
+                    <div
+                      key={item.Product}
+                      className={styles.carrySelectedProductDiv}
+                    >
+                      <p className={styles.carrySelectedProductText}>
+                        {item.Title}
+                      </p>
+                      <p className={styles.carrySelectedProductText}>
+                        <span className={styles.carrySelectedProductText}>
+                          ریال:
+                        </span>
+                        {item.Price}
+                      </p>
+                      <div className={styles.carrySelectedProductInputDiv}>
+                        <label
+                          className={styles.carrySelectedProductText}
+                          htmlFor="count"
+                        >
+                          مقدار ارسالی (متر):
+                        </label>
+                        <input
+                          className={styles.carrySelectedProductInput}
+                          type="text"
+                          name="count"
+                          value={this.state.productCounts[item.Product] || ""}
+                          onChange={(e) =>
+                            this.handleCountChange(
+                              item.Product,
+                              e.currentTarget.value
+                            )
+                          }
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        className={styles.carryRemoveProductButton}
+                        onClick={() => this.handleRemoveProduct(item.Product)}
+                      >
+                        حذف
+                      </button>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            <div className={styles.carryFormBtnContainer}>
+              <button
+                className={styles.carryAddProductButton}
+                type="button"
+                onClick={() => {
+                  this.setState({ chooseProduct: true });
+                }}
+              >
+                انتخاب محصول
+              </button>
+              <button type="submit" className={styles.carrySubmitButton}>
+                ثبت اطلاعات رسید حمل
+              </button>
+            </div>
+          </div>
+        </form>
 
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel} htmlFor="openningUploadFile">
@@ -114,7 +257,7 @@ export default class CarryForm extends Component<any, any> {
         </div>
 
         <button type="submit" className={styles.carrySubmitButton}>
-          ثبت اطلاعات
+          آپلود فایل ها
         </button>
 
         {this.state.chooseProduct && (
@@ -124,7 +267,11 @@ export default class CarryForm extends Component<any, any> {
               onClick={() => this.setState({ chooseProduct: false })}
             />
             <div className={styles.shopPopupContainor}>
-              <ChooseProduct faktorNumber={faktorNumber} products={products} />
+              <ChooseProduct
+                faktorNumber={faktorNumber}
+                products={products}
+                onAddProduct={this.handleAddProduct}
+              />
 
               <button
                 className={styles.closeShopPopupBtn}
@@ -137,65 +284,7 @@ export default class CarryForm extends Component<any, any> {
             </div>
           </div>
         )}
-      </form>
+      </div>
     );
   }
 }
-
-//   async componentDidMount() {
-//     if (this.props.parent_GUID) {
-//       this.loadData(this.props.parent_GUID);
-//     }
-//   }
-
-//   async componentDidUpdate(prevProps: any) {
-//     if (
-//       prevProps.parent_GUID !== this.props.parent_GUID &&
-//       this.props.parent_GUID
-//     ) {
-//       this.loadData(this.props.parent_GUID);
-//     }
-//   }
-
-//   async loadData(guid: string) {
-//     const EventsData = await loadEvent(guid);
-//     const newGUID = uuidv4();
-//     this.setState({
-//       Events: EventsData.reverse(),
-//       item_GUID: newGUID,
-//     });
-//   }
-
-//   async onEventAdd() {
-//     try {
-//       if (this.reciveRef) {
-//         await this.reciveRef.uploadFile();
-//       }
-//       if (this.sendRef) {
-//         await this.sendRef.uploadFile();
-//       }
-
-//       const { item_GUID, Event_Type, Order_Status, Description } = this.state;
-
-//       await handleAddEvent(
-//         item_GUID,
-//         this.props.parent_GUID,
-//         Event_Type,
-//         Order_Status,
-//         Description
-//       );
-
-//       await this.loadData(this.props.parent_GUID);
-
-//       this.setState({
-//         Event_Type: "chose",
-//         Order_Status: "chose",
-//         Description: "",
-//       });
-
-//       if (this.reciveRef) this.reciveRef.clearFile();
-//       if (this.sendRef) this.sendRef.clearFile();
-//     } catch (error) {
-//       console.error("خطا در ذخیره رویداد یا آپلود فایل:", error);
-//     }
-//   }
