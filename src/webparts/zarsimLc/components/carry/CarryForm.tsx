@@ -5,13 +5,15 @@ import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
 import { getCustomerFactorDetails, getLCNumber } from "../api/GetData";
 import { AddToCarryReceipt } from "../api/AddData";
+import Guid from "../utils/CreateGUID";
 
 export default class CarryForm extends Component<any, any> {
-  private sendRef: FileUploader | null = null;
-  private reciveRef: FileUploader | null = null;
+  private fileUploaders: any[] = [];
 
   constructor(props: any) {
     super(props);
+    this.fileUploaders = [];
+
     this.state = {
       products: [],
       faktorNumber: "",
@@ -19,7 +21,18 @@ export default class CarryForm extends Component<any, any> {
       productCounts: {},
       lcNumber: "",
     };
+
+    this.uploadAllFiles = this.uploadAllFiles.bind(this);
   }
+
+  uploadAllFiles = () => {
+    this.fileUploaders.forEach((uploader) => {
+      if (uploader && uploader.uploadFile) {
+        uploader.uploadFile();
+        localStorage.removeItem("GUID");
+      }
+    });
+  };
 
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,7 +40,6 @@ export default class CarryForm extends Component<any, any> {
     const { lcNumber, selectedProducts, productCounts } = this.state;
 
     try {
-
       for (const product of selectedProducts) {
         const countStr = productCounts[product.Product] || "0";
         const count = parseFloat(countStr);
@@ -99,22 +111,21 @@ export default class CarryForm extends Component<any, any> {
     }));
   };
 
-async componentDidMount() {
-  const { faktorNumber } = this.props;
-  const products = await getCustomerFactorDetails(faktorNumber);
-  console.log(products, "products");
+  async componentDidMount() {
+    const { faktorNumber } = this.props;
+    const products = await getCustomerFactorDetails(faktorNumber);
 
-  setTimeout(async () => {
-    const lcNumber = await getLCNumber(faktorNumber);
-    this.setState({ lcNumber });
-  }, 1000);
+    setTimeout(async () => {
+      const lcNumber = await getLCNumber(faktorNumber);
+      this.setState({ lcNumber });
+    }, 1000);
 
-  this.setState({ products, faktorNumber });
-}
-
+    this.setState({ products, faktorNumber });
+  }
 
   render() {
     const { products, faktorNumber } = this.state;
+    const subFolder = Guid();
 
     return (
       <div className={styles.carryContainer}>
@@ -191,73 +202,67 @@ async componentDidMount() {
         </form>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
-            آپلود صورتحساب فروش:
-          </label>
+          <label className={styles.carryLabel}>آپلود صورتحساب فروش:</label>
           <FileUploader
-            ref={(el) => (this.reciveRef = el)}
+            ref={(el) => el && (this.fileUploaders[0] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
-            آپلود لیست دسته بندی:
-          </label>
+          <label className={styles.carryLabel}>آپلود لیست دسته بندی:</label>
           <FileUploader
-            ref={(el) => (this.sendRef = el)}
+            ref={(el) => el && (this.fileUploaders[1] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
-            آپلود گواهی بازرسی:
-          </label>
+          <label className={styles.carryLabel}>آپلود گواهی بازرسی:</label>
           <FileUploader
-            ref={(el) => (this.sendRef = el)}
+            ref={(el) => el && (this.fileUploaders[2] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
-            آپلود بارنامه:
-          </label>
+          <label className={styles.carryLabel}>آپلود بارنامه:</label>
           <FileUploader
-            ref={(el) => (this.sendRef = el)}
+            ref={(el) => el && (this.fileUploaders[3] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
-            آپلود برگه باسکول:
-          </label>
+          <label className={styles.carryLabel}>آپلود برگه باسکول:</label>
           <FileUploader
-            ref={(el) => (this.sendRef = el)}
+            ref={(el) => el && (this.fileUploaders[4] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
         <div className={styles.carryDiv}>
-          <label className={styles.carryLabel} htmlFor="openningUploadFile">
+          <label className={styles.carryLabel}>
             آپلود نامه رسمی شرکت زرسیم:
           </label>
           <FileUploader
-            ref={(el) => (this.sendRef = el)}
+            ref={(el) => el && (this.fileUploaders[5] = el)}
             orderNumber={faktorNumber}
-            subFolder={"حمل و بارگیری"}
+            subFolder={subFolder}
           />
         </div>
 
-        <button type="submit" className={styles.carrySubmitButton}>
-          آپلود فایل ها
+        <button
+          type="button"
+          className={styles.carrySubmitButton}
+          onClick={this.uploadAllFiles}
+        >
+          آپلود فایل‌ها
         </button>
 
         {this.state.chooseProduct && (

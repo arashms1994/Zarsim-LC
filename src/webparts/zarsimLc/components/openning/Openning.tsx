@@ -5,6 +5,7 @@ import { FileUploader } from "../fileUploader/FileUploader";
 import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 import { LCOpenningDates, settlementDates } from "../constants/Constants";
 import { AddToOpenningDate } from "../api/AddData";
+import Guid from "../utils/CreateGUID";
 
 export default class Openning extends React.Component<any, any> {
   private sendRef: FileUploader | null = null;
@@ -45,6 +46,7 @@ export default class Openning extends React.Component<any, any> {
 
   render() {
     const faktorNumber = this.props.faktorNumber;
+    const subFolder = Guid();
 
     return (
       <div>
@@ -167,7 +169,7 @@ export default class Openning extends React.Component<any, any> {
             <FileUploader
               ref={(el) => (this.sendRef = el)}
               orderNumber={faktorNumber}
-              subFolder={"گشایش و ابلاغ"}
+              subFolder={subFolder}
             />
           </div>
 

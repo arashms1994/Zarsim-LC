@@ -15,9 +15,6 @@ export default class Carry extends React.Component<any, any> {
     const params = new URLSearchParams(window.location.search);
     const faktorNumber = params.get("Factor_ID") || "4-70105-1";
 
-    const GUID = Guid()
-    localStorage.setItem("GUID",GUID)
-
     this.setState({ faktorNumber });
   }
 

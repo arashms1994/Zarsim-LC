@@ -50,7 +50,6 @@ export async function getCustomerFactor(faktorNumber: string) {
   }
 
   const itemData = await itemsRes.json();
-  console.log(`itemData`, itemData);
 
   return {
     item: itemData.d.results.at(0),

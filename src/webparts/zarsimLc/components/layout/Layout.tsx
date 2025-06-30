@@ -7,6 +7,7 @@ import {
   goPeyment,
   goPreInvoice,
 } from "../utils/ChangeTabs";
+import Guid from "../utils/CreateGUID";
 
 export class Layout extends React.Component<any, any> {
   constructor(props: any) {
@@ -16,12 +17,20 @@ export class Layout extends React.Component<any, any> {
       faktorNumber: "",
     };
   }
+async componentDidMount() {
+  let GUID = localStorage.getItem("GUID");
 
-  async componentDidMount() {
-    const params = new URLSearchParams(window.location.search);
-    const faktorNumber = params.get("Factor_ID") || "4-70105-1";
-    this.setState({ faktorNumber });
+  if (!GUID) {
+    GUID = Guid();
+    localStorage.setItem("GUID", GUID);
   }
+
+  const params = new URLSearchParams(window.location.search);
+  const faktorNumber = params.get("Factor_ID") || "4-70105-1";
+
+  this.setState({ faktorNumber, GUID });
+}
+
 
   handleSearchChange = (event: any) => {
     this.setState({ searchQuery: event.target.value });

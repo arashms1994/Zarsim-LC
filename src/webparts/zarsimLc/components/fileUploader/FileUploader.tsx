@@ -79,25 +79,34 @@ export class FileUploader extends React.Component<any, any> {
 
       // آپلود فایل
       const uploadRes = await fetch(
-        `${BASE_URL}/_api/web/GetFolderByServerRelativeUrl('${fullFolderPath}')/Files/add(overwrite=true, url='${cleanFileName}')`,
+        `${BASE_URL}/_api/web/GetFolderByServerRelativeUrl('${encodeURIComponent(
+          fullFolderPath
+        )}')/Files/add(overwrite=true, url='${encodeURIComponent(
+          cleanFileName
+        )}')`,
         {
           method: "POST",
           body: arrayBuffer,
           headers: {
             Accept: "application/json;odata=verbose",
             "X-RequestDigest": digest,
+            "Content-Type": "application/octet-stream",
           },
         }
       );
 
       if (uploadRes.ok) {
-        this.setState({
-          uploadStatus: "فایل با موفقیت آپلود شد",
-          uploadProgress: 100,
-        });
-      } else {
-        throw new Error("خطا در آپلود فایل");
-      }
+  this.setState({
+    uploadStatus: "فایل با موفقیت آپلود شد",
+    uploadProgress: 100,
+    selectedFile: null, 
+  });
+
+  if (this.fileInputRef) {
+    this.fileInputRef.value = "";
+  }
+}
+
     } catch (error) {
       console.error("خطا در آپلود:", error);
       this.setState({
