@@ -29,3 +29,8 @@ export interface PersianDatePickerState {
   currentYear: number;
   currentMonth: number;
 }
+
+export interface ISearchBarProps {
+  value: string;
+  onChange: (e: any) => void;
+}
