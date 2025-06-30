@@ -28,6 +28,7 @@ export default class Faktor extends React.Component<any, any> {
               مشاهده کامل پیش فاکتور
             </a>
           </div>
+          
           <div className={styles.faktorParaphDiv}>
             <p className={styles.faktorLabel}>شماره پیش فاکتور:</p>
             <p className={styles.faktorParaph}>{customer.Title}</p>
