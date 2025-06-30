@@ -13,7 +13,6 @@ export default class FaktorDetail extends React.Component<any, any> {
       return <div>در حال بارگذاری...</div>;
     }
 
-    console.log(products);
     return (
       <div className={styles.faktorContainer}>
         <div className={styles.faktorHeaderDiv}>

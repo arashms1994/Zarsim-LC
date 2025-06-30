@@ -32,11 +32,13 @@ export default class ChooseProduct extends React.Component<any, any> {
   //   }, 3000);
   // };
 
- 
-
   render() {
-    const { searchQuery, showMessage, faktorNumber } = this.state;
-    const { products } = this.props;
+    const { searchQuery, showMessage } = this.state;
+    const { products, faktorNumber } = this.props;
+
+    if (!products || Object.keys(products).length === 0) {
+      return <div>در حال بارگذاری...</div>;
+    }
     console.log(faktorNumber);
 
     const filteredItems = searchQuery.trim()

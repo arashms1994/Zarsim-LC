@@ -12,13 +12,8 @@ export default class CarryForm extends Component<any, any> {
   constructor(props: any) {
     super(props);
     this.state = {
-      item_GUID: "",
-      Event_Type: "chose",
-      Order_Status: "chose",
-      Description: "",
-      chooseProduct: false,
       products: [],
-      Events: [],
+      faktorNumber: "",
     };
   }
 
@@ -28,19 +23,19 @@ export default class CarryForm extends Component<any, any> {
   };
 
   async componentDidMount() {
-    const faktorNumber = sessionStorage.getItem("faktorNumber");
+    const { faktorNumber } = this.props;
     const products = await getCustomerFactorDetails(faktorNumber);
 
-    this.setState({ products: products });
+    console.log("faktorNumber", faktorNumber);
+    this.setState({ products, faktorNumber });
   }
 
   render() {
-    const { faktorNumber, products } = this.state;
+    const { products, faktorNumber } = this.state;
 
     return (
       <form className={styles.carryContainer} onSubmit={this.handleSubmit}>
-        <div className={styles.carryInputContainer}>
-          <div>
+        <div className={styles.caryReceiptContainer}>
             <button
               className={styles.carryAddProductButton}
               type="button"
@@ -48,9 +43,8 @@ export default class CarryForm extends Component<any, any> {
                 this.setState({ chooseProduct: true });
               }}
             >
-              افزودن محصول از پیش فاکتور
+              +
             </button>
-          </div>
         </div>
 
         <div className={styles.carryDiv}>

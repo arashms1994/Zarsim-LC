@@ -5,10 +5,20 @@ import CarryForm from "./CarryForm";
 export default class Carry extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
+    this.state = {
+      faktorNumber: "",
+    };
+  }
+
+  async componentDidMount() {
+    const params = new URLSearchParams(window.location.search);
+    const faktorNumber = params.get("Factor_ID") || "4-70105-1";
+
+    this.setState({ faktorNumber });
   }
 
   public render() {
-    const { faktorNumber } = this.props;
+    const { faktorNumber } = this.state;
 
     return (
       <div className={styles.LCContainer}>

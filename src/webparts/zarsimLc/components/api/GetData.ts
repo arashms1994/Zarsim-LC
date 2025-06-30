@@ -46,11 +46,11 @@ export async function getOpenningListItems() {
   };
 }
 
-export async function getCustomerFactor(factorNumber: string) {
+export async function getCustomerFactor(faktorNumber: string) {
   const listTitle = "customer_factor";
 
   const itemsRes = await fetch(
-    `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items?$filter=Title eq '${factorNumber}'`,
+    `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items?$filter=Title eq '${faktorNumber}'`,
     {
       method: "GET",
       headers: {
@@ -71,10 +71,11 @@ export async function getCustomerFactor(factorNumber: string) {
   };
 }
 
-export async function getCustomerFactorDetails(factorNumber: string) {
+export async function getCustomerFactorDetails(faktorNumber: string) {
+
   const listTitle = "detail_customer_factor";
   let allResults = [];
-  let nextUrl = `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items?$filter=OrderNumber eq '${factorNumber}'`;
+  let nextUrl = `${BASE_URL}/_api/web/lists/getbytitle('${listTitle}')/items?$filter=OrderNumber eq '${faktorNumber}'`;
 
   try {
     while (nextUrl) {
@@ -91,7 +92,7 @@ export async function getCustomerFactorDetails(factorNumber: string) {
 
       nextUrl = data.d.__next || null;
     }
-
+    
     return allResults;
   } catch (err) {
     console.error("خطا در دریافت آیتم‌ها:", err);

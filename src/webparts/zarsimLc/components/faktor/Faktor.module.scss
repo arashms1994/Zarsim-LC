@@ -5,6 +5,7 @@
   align-items: center;
   padding-inline: 20px;
   padding-top: 20px;
+  position: relative;
 }
 
 .faktorHeaderDiv {
@@ -54,6 +55,26 @@
   width: 100%;
 }
 
+.faktorLinkDiv {
+  position: absolute;
+  bottom: -70px;
+  right: 0;
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  background-color: rgb(87, 87, 255);
+  cursor: pointer;
+}
+
+.faktorLink {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+}
+
 .faktorTableHeaderRow {
   width: 100%;
   display: flex;
@@ -69,6 +90,7 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
+  border-bottom: 2px solid rgb(163, 163, 163);
 }
 
 .faktorTableBody {
