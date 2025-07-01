@@ -1,12 +1,10 @@
 import * as React from "react";
 import {
-  pad,
   getTodayPersianDate,
   formatPersianDate,
   getJalaaliMonthLength,
 } from "../utils/PersianCalendarUtils";
 import styles from "./PersianDatePicker.module.scss";
-import moment = require("moment");
 import { PersianDatePickerProps } from "../IZarsimLcProps";
 
 export class PersianDatePicker extends React.Component<any, any> {
