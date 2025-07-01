@@ -29,7 +29,6 @@ export default class CarryForm extends Component<any, any> {
     this.fileUploaders.forEach((uploader) => {
       if (uploader && uploader.uploadFile) {
         uploader.uploadFile();
-        localStorage.removeItem("GUID");
       }
     });
   };
@@ -69,6 +68,7 @@ export default class CarryForm extends Component<any, any> {
         selectedProducts: [],
         productCounts: {},
       });
+      localStorage.removeItem("GUID");
     } catch (error) {
       console.error("خطا در ثبت اطلاعات:", error);
       alert("خطایی در ثبت اطلاعات رخ داد.");

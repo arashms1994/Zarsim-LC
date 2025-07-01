@@ -7,16 +7,6 @@ export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
   const itemType = `SP.Data.LC_x005f_OpenningListItem`;
   const digest = await getDigest();
 
-  console.log("Sending data:", {
-    Title: "اعتبار اسنادی",
-    LC_Number: state.LCNumber,
-    Total_Price: state.LCTotalPrice,
-    Openning_Date: state.LCOpenningDate,
-    Communication_Date: state.LCCommunicationDate,
-    Settlement_Period: state.LCSettlementDate,
-    Origin_Openning_Date: state.LCOriginOpenningDate,
-  });
-
   const response = await fetch(
     `${BASE_URL}/_api/web/lists/getbytitle('${listName}')/items`,
     {
@@ -33,8 +23,8 @@ export async function AddToOpenningDate(state: IOpenningState): Promise<void> {
         Total_Price: String(state.LCTotalPrice),
         Settlement_Period: String(state.LCSettlementDate),
         Origin_Openning_Date: String(state.LCOriginOpenningDate),
-        // Openning_Date: String(state.LCOpenningDate),
-        // Communication_Date: String(state.LCCommunicationDate),
+        Opening_Date: String(state.LCOpenningDate),
+        Communication_Date: String(state.LCCommunicationDate),
       }),
     }
   );

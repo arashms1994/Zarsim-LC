@@ -1,9 +1,9 @@
 export const LCOpenningDates = [
   { value: "", label: "لطفا یک گزینه را انتخاب کنید" },
-  { value: "openningDate", label: "تاریخ گشایش" },
-  { value: "communicationDate", label: "تاریخ ابلاغ" },
-  { value: "shippingDate", label: "تاریخ حمل/بارنامه" },
-  { value: "invoiceDate", label: "تاریخ فاکتور" },
+  { value: "تاریخ گشایش", label: "تاریخ گشایش" },
+  { value: "تاریخ ابلاغ", label: "تاریخ ابلاغ" },
+  { value: "تاریخ حمل/بارنامه", label: "تاریخ حمل/بارنامه" },
+  { value: "تاریخ فاکتور", label: "تاریخ فاکتور" },
 ];
 
 export const settlementDates = [

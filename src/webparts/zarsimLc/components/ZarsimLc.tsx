@@ -1,9 +1,8 @@
 import * as React from "react";
 import styles from "./ZarsimLc.module.scss";
 import { IZarsimLcProps } from "./IZarsimLcProps";
-import { getCustomerFactor, getCustomerFactorDetails } from "./api/GetData";
+import { getCustomerFactor } from "./api/GetData";
 import Faktor from "./faktor/Faktor";
-import FaktorDetail from "./faktor/FaktorDetail";
 require("./Font.css");
 
 export default class ZarsimLc extends React.Component<IZarsimLcProps, any> {
@@ -21,9 +20,8 @@ export default class ZarsimLc extends React.Component<IZarsimLcProps, any> {
 
     try {
       const customer = (await getCustomerFactor(faktorNumber)).item;
-      const products = await getCustomerFactorDetails(faktorNumber);
 
-      this.setState({ products, customer });
+      this.setState({ customer });
     } catch (error) {
       console.error("Error fetching data: ", error);
     }
@@ -35,7 +33,6 @@ export default class ZarsimLc extends React.Component<IZarsimLcProps, any> {
     return (
       <div className={styles.LCContainer}>
         <Faktor customer={customer} />
-        <FaktorDetail products={products} />
       </div>
     );
   }
