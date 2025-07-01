@@ -34,14 +34,14 @@ export default class Faktor extends React.Component<any, any> {
 
     if (!customer || Object.keys(customer).length === 0) {
       return (
-  <div className={styles.faktorLoadingContainer}>
-    <div className={styles.faktorLoadingSpinner}></div>
-    <span className={styles.faktorLoadingSpinnerSpan}>در حال بارگذاری...</span>
-  </div>
-);
-
+        <div className={styles.faktorLoadingContainer}>
+          <div className={styles.faktorLoadingSpinner}></div>
+          <span className={styles.faktorLoadingSpinnerSpan}>
+            در حال بارگذاری...
+          </span>
+        </div>
+      );
     }
-    console.log(customer);
 
     return (
       <div className={styles.faktorContainer}>
