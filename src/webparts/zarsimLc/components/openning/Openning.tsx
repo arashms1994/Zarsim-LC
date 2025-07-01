@@ -9,7 +9,6 @@ import Guid from "../utils/CreateGUID";
 
 export default class Openning extends React.Component<any, any> {
   private sendRef: FileUploader | null = null;
-  private reciveRef: FileUploader | null = null;
 
   constructor(props) {
     super(props);
@@ -35,17 +34,26 @@ export default class Openning extends React.Component<any, any> {
   handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (this.sendRef && !this.sendRef.getFile()) {
+      alert("لطفا فایل ابلاغیه را انتخاب کنید.");
+      return;
+    }
+
     try {
       await AddToOpenningDate(this.state);
       alert("اطلاعات با موفقیت ثبت شد.");
+
+      if (this.sendRef) {
+        await this.sendRef.uploadFile();
+      }
     } catch (error) {
-      console.error("خطا در ثبت اطلاعات:", error);
-      alert("خطایی در ثبت اطلاعات رخ داد.");
+      console.error("خطا در ثبت اطلاعات یا آپلود فایل:", error);
+      alert("خطایی در ثبت اطلاعات یا آپلود فایل رخ داد.");
     }
   };
 
   render() {
-    const faktorNumber = this.props.faktorNumber;
+    const { faktorNumber } = this.props;
     const subFolder = Guid();
 
     return (
@@ -57,11 +65,9 @@ export default class Openning extends React.Component<any, any> {
             </label>
             <PersianDatePicker
               value={this.state.LCOpenningDate}
-              onChange={(value: string) =>
-                this.setState({
-                  LCOpenningDate: value,
-                })
-              }
+              onChange={(value: any) => {
+                this.setState({ LCOpenningDate: value });
+              }}
             />
           </div>
 
@@ -102,11 +108,11 @@ export default class Openning extends React.Component<any, any> {
             </label>
             <PersianDatePicker
               value={this.state.LCCommunicationDate}
-              onChange={(value: string) =>
+              onChange={(value: string) => {
                 this.setState({
                   LCCommunicationDate: value,
-                })
-              }
+                });
+              }}
             />
           </div>
 
