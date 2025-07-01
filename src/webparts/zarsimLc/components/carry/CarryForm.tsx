@@ -10,7 +10,10 @@ import {
 } from "../api/GetData";
 import { AddToCarryReceipt } from "../api/AddData";
 import Guid from "../utils/CreateGUID";
-import { calculateExitSummary } from "../utils/calculateExitSummary";
+import {
+  calculateExitSummary,
+  formatRial,
+} from "../utils/calculateExitSummary";
 
 export default class CarryForm extends Component<any, any> {
   private fileUploaders: any[] = [];
@@ -25,6 +28,9 @@ export default class CarryForm extends Component<any, any> {
       selectedProducts: [],
       productCounts: {},
       lcNumber: "",
+      exitRequests: [],
+      totalMablagh: 0,
+      totalMetraj: 0,
     };
 
     this.uploadAllFiles = this.uploadAllFiles.bind(this);
@@ -120,21 +126,30 @@ export default class CarryForm extends Component<any, any> {
     const { faktorNumber } = this.props;
     const products = await getCustomerFactorDetails(faktorNumber);
     const exitRequests = await getExitRequestsByOrderNumber(faktorNumber);
+    const summary = calculateExitSummary(exitRequests);
+    console.log("متراژ کل:", summary.totalMetraj);
+    console.log("مبلغ کل:", formatRial(summary.totalMablagh));
 
     setTimeout(async () => {
       const lcNumber = await getLCNumber(faktorNumber);
       this.setState({ lcNumber });
     }, 1000);
 
-    this.setState({ products, faktorNumber, exitRequests });
+    this.setState({
+      products,
+      faktorNumber,
+      exitRequests,
+      // totalMablagh,
+      // totalMetraj,
+    });
     console.log(exitRequests);
-    const { totalMetraj, totalMablagh } = calculateExitSummary(exitRequests);
-    console.log("مجموع متراژ:", totalMetraj);
-    console.log("مجموع مبلغ:", totalMablagh);
+    // console.log("مجموع متراژ:", totalMetraj);
+    // console.log("مجموع مبلغ:", totalMablagh);
   }
 
   render() {
-    const { products, faktorNumber, exitRequests } = this.state;
+    const { products, faktorNumber, exitRequests, totalMetraj, totalMablagh } =
+      this.state;
     const subFolder = Guid();
 
     if (!exitRequests || Object.keys(exitRequests).length === 0) {
@@ -186,19 +201,24 @@ export default class CarryForm extends Component<any, any> {
                   )}
               </div>
             </div>
-            {/* <div className={styles.carrySelectedProductDiv}>
-              <p className={styles.carrySelectedProductText}>
-                {item.goodsname}
-              </p>
-              <p className={styles.carrySelectedProductText}>
-                <span className={styles.carrySelectedProductText}>متراژ:</span>
-                {item.metrajdarkhast}
-              </p>
-              <p className={styles.carrySelectedProductText}>
-                <span className={styles.carrySelectedProductText}>مبلغ کل:</span>
-                {item.date_k}
-              </p>
-            </div> */}
+            <div className={styles.carrySelectedProductDiv}>
+              <div className={styles.carrySelectedProductDiv}>
+                <p className={styles.carrySelectedProductText}>
+                  <span className={styles.carrySelectedProductText}>
+                    مجموع متراژ:
+                  </span>
+                  {totalMetraj}
+                </p>
+              </div>
+              <div className={styles.carrySelectedProductDiv}>
+                <p className={styles.carrySelectedProductText}>
+                  <span className={styles.carrySelectedProductText}>
+                    مبلغ کل:
+                  </span>
+                  {totalMablagh}
+                </p>
+              </div>
+            </div>
             <div className={styles.carryFormBtnContainer}>
               <button type="submit" className={styles.carrySubmitButton}>
                 ثبت اطلاعات رسید حمل
