@@ -21,11 +21,10 @@ export default class ChooseProduct extends React.Component<any, any> {
   render() {
     const { searchQuery, showMessage } = this.state;
     const { products, faktorNumber, onAddProduct } = this.props;
-    console.log(products);
+
     if (!products || Object.keys(products).length === 0) {
       return <div>در حال بارگذاری...</div>;
     }
-    console.log(faktorNumber);
 
     const filteredItems = searchQuery.trim()
       ? products.filter(
@@ -34,7 +33,6 @@ export default class ChooseProduct extends React.Component<any, any> {
             (item.Code && item.Code.includes(searchQuery))
         )
       : products;
-      console.log("تعداد محصولات فیلتر شده:", filteredItems.length);
 
     return (
       <div className={styles.shopPopupDiv}>
@@ -44,7 +42,7 @@ export default class ChooseProduct extends React.Component<any, any> {
         </div>
 
         <ul className={styles.shopPopupUL}>
-          {filteredItems.map((p,i) => (
+          {filteredItems.map((p, i) => (
             <li className={styles.shopPopupItem} key={i}>
               <span className={styles.shopPopupIndex}>{p.Product}</span>
               {p.Title}
