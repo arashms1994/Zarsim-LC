@@ -1,5 +1,6 @@
 import * as React from "react";
 import styles from "./Faktor.module.scss";
+import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 
 export default class Faktor extends React.Component<any, any> {
   constructor(props) {
@@ -9,9 +10,38 @@ export default class Faktor extends React.Component<any, any> {
   public render() {
     const { customer } = this.props;
 
+    const customerDetails = [
+      { label: "شماره پیش فاکتور:", value: customer.Title },
+      { label: "تاریخ ثبت پیش فاکتور:", value: customer.Date },
+      { label: "نام مشتری:", value: customer.Customer },
+      { label: "نوع پیش فاکتور:", value: customer.type_factor },
+      { label: "مجموع مس (CU):", value: customer.MainTotalCu },
+      { label: "مجموع مس-قلع (TICU):", value: customer.MainTotakTICU },
+      { label: "جمع کل (ريال):", value: customer.total_SUM },
+      {
+        label: "تخفیف (ريال):",
+        value: formatNumberWithComma(customer.takhfif),
+      },
+      {
+        label: "عوارض و مالیات (ريال):",
+        value: formatNumberWithComma(customer.avarez),
+      },
+      {
+        label: "مبلغ کل (ريال):",
+        value: formatNumberWithComma(customer.total_mani),
+      },
+    ];
+
     if (!customer || Object.keys(customer).length === 0) {
-      return <div>در حال بارگذاری...</div>;
+      return (
+  <div className={styles.faktorLoadingContainer}>
+    <div className={styles.faktorLoadingSpinner}></div>
+    <span className={styles.faktorLoadingSpinnerSpan}>در حال بارگذاری...</span>
+  </div>
+);
+
     }
+    console.log(customer);
 
     return (
       <div className={styles.faktorContainer}>
@@ -28,26 +58,13 @@ export default class Faktor extends React.Component<any, any> {
               مشاهده کامل پیش فاکتور
             </a>
           </div>
-          
-          <div className={styles.faktorParaphDiv}>
-            <p className={styles.faktorLabel}>شماره پیش فاکتور:</p>
-            <p className={styles.faktorParaph}>{customer.Title}</p>
-          </div>
 
-          <div className={styles.faktorParaphDiv}>
-            <p className={styles.faktorLabel}>تاریخ ثبت پیش فاکتور:</p>
-            <p className={styles.faktorParaph}>{customer.Date}</p>
-          </div>
-
-          <div className={styles.faktorParaphDiv}>
-            <p className={styles.faktorLabel}>نام مشتری:</p>
-            <p className={styles.faktorParaph}>{customer.Customer}</p>
-          </div>
-
-          <div className={styles.faktorParaphDiv}>
-            <p className={styles.faktorLabel}>نوع پیش فاکتور:</p>
-            <p className={styles.faktorParaph}>{customer.type_factor}</p>
-          </div>
+          {customerDetails.map((item, index) => (
+            <div key={index} className={styles.faktorParaphDiv}>
+              <p className={styles.faktorLabel}>{item.label}</p>
+              <p className={styles.faktorParaph}>{item.value}</p>
+            </div>
+          ))}
         </div>
       </div>
     );
