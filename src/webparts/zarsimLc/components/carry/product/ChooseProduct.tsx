@@ -20,7 +20,7 @@ export default class ChooseProduct extends React.Component<any, any> {
 
   render() {
     const { searchQuery, showMessage } = this.state;
-    const { products, faktorNumber, onAddProduct } = this.props;
+    const { products, onAddProduct } = this.props;
 
     if (!products || Object.keys(products).length === 0) {
       return <div>در حال بارگذاری...</div>;
