@@ -6,7 +6,7 @@ import ChooseProduct from "./product/ChooseProduct";
 import {
   getCustomerFactorDetails,
   getExitRequestsByOrderNumber,
-  getLCNumber,
+  getLCNumberAndTotalPrice,
 } from "../api/GetData";
 import { AddToCarryReceipt } from "../api/AddData";
 import Guid from "../utils/CreateGUID";
@@ -31,6 +31,8 @@ export default class CarryForm extends Component<any, any> {
       exitRequests: [],
       totalMablagh: 0,
       totalMetraj: 0,
+      LCNumber: "",
+      TotalPrice: "",
     };
 
     this.uploadAllFiles = this.uploadAllFiles.bind(this);
@@ -126,15 +128,16 @@ export default class CarryForm extends Component<any, any> {
     const { faktorNumber } = this.props;
     const products = await getCustomerFactorDetails(faktorNumber);
     const exitRequests = await getExitRequestsByOrderNumber(faktorNumber);
-    const summary = calculateExitSummary(exitRequests);
-    console.log("متراژ کل:", summary.totalMetraj);
-    console.log("مبلغ کل:", formatRial(summary.totalMablagh));
+    // const summary = calculateExitSummary(exitRequests);
+    // console.log("متراژ کل:", summary.totalMetraj);
+    // console.log("مبلغ کل:", formatRial(summary.totalMablagh));
 
     setTimeout(async () => {
-      const lcNumber = await getLCNumber(faktorNumber);
-      this.setState({ lcNumber });
+      const { LCNumber, TotalPrice } = await getLCNumberAndTotalPrice(
+        faktorNumber
+      );
+      this.setState({ LCNumber, TotalPrice });
     }, 1000);
-
     this.setState({
       products,
       faktorNumber,
@@ -142,6 +145,7 @@ export default class CarryForm extends Component<any, any> {
       // totalMablagh,
       // totalMetraj,
     });
+    console.log(this.state.LCNumber, this.state.TotalPrice);
     console.log(exitRequests);
     // console.log("مجموع متراژ:", totalMetraj);
     // console.log("مجموع مبلغ:", totalMablagh);
@@ -290,31 +294,9 @@ export default class CarryForm extends Component<any, any> {
         >
           آپلود فایل‌ها
         </button>
-
-        {this.state.chooseProduct && (
-          <div>
-            <div
-              className={styles.shopPopupBackdrop}
-              onClick={() => this.setState({ chooseProduct: false })}
-            />
-            <div className={styles.shopPopupContainor}>
-              <ChooseProduct
-                faktorNumber={faktorNumber}
-                products={products}
-                onAddProduct={this.handleAddProduct}
-              />
-
-              <button
-                className={styles.closeShopPopupBtn}
-                onClick={() => {
-                  this.setState({ chooseProduct: false });
-                }}
-              >
-                بستن
-              </button>
-            </div>
-          </div>
-        )}
+        <button onClick={() => {
+                  console.log(getLCNumberAndTotalPrice(faktorNumber));
+                }}>ddddddddddddd</button>
       </div>
     );
   }

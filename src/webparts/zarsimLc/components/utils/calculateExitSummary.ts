@@ -3,14 +3,16 @@ export function calculateExitSummary(exitRequests: any[]) {
   let totalMablagh = 0;
 
   exitRequests.forEach((item) => {
-    const metraj = parseFloat(item.metrajdarkhast?.replace(/\s/g, '') || "0");
-
-    const mablagh = parseFloat(
-      item.date_k?.replace(/,/g, '').replace(/\s/g, '') || "0"
+    const metraj = parseFloat(
+      (item.metrajdarkhast || "0").replace(/\s/g, '')
     );
 
-    totalMetraj += metraj;
-    totalMablagh += mablagh;
+    const mablagh = parseFloat(
+      (item.date_k || "0").replace(/,/g, '').replace(/\s/g, '')
+    );
+
+    totalMetraj += isNaN(metraj) ? 0 : metraj;
+    totalMablagh += isNaN(mablagh) ? 0 : mablagh;
   });
 
   return {

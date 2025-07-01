@@ -1,12 +1,12 @@
 import { BASE_URL } from "./BaseUrl";
 
-export async function getLCNumber(
+export async function getLCNumberAndTotalPrice(
   faktorNumber: string
-): Promise<string | null> {
+): Promise<{ LCNumber: string | null; TotalPrice: string | null } | null> {
   const listName = "LC_Openning";
 
   const response = await fetch(
-    `${BASE_URL}/_api/web/lists/getbytitle('${listName}')/items?$filter=Title eq '${faktorNumber}'`,
+    `${BASE_URL}/_api/web/lists/getbytitle('${listName}')/items?$select=LC_Number,Total_Price&$filter=Title eq '${faktorNumber}'`,
     {
       method: "GET",
       headers: {
@@ -16,7 +16,7 @@ export async function getLCNumber(
   );
 
   if (!response.ok) {
-    console.error("خطا در دریافت اطلاعات LC_Number:", await response.text());
+    console.error("خطا در دریافت اطلاعات LC_Number و Total_Price:", await response.text());
     return null;
   }
 
@@ -28,7 +28,11 @@ export async function getLCNumber(
     return null;
   }
 
-  return data.d.results.at(0).LCNumber;
+  const item = items[0];
+  return {
+    LCNumber: item.LC_Number || null,
+    TotalPrice: item.Total_Price || null,
+  };
 }
 
 export async function getCustomerFactor(faktorNumber: string) {
