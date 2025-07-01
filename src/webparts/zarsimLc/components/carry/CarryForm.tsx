@@ -3,9 +3,14 @@ import { Component } from "react";
 import styles from "./Carry.module.scss";
 import { FileUploader } from "../fileUploader/FileUploader";
 import ChooseProduct from "./product/ChooseProduct";
-import { getCustomerFactorDetails, getLCNumber } from "../api/GetData";
+import {
+  getCustomerFactorDetails,
+  getExitRequestsByOrderNumber,
+  getLCNumber,
+} from "../api/GetData";
 import { AddToCarryReceipt } from "../api/AddData";
 import Guid from "../utils/CreateGUID";
+import { calculateExitSummary } from "../utils/calculateExitSummary";
 
 export default class CarryForm extends Component<any, any> {
   private fileUploaders: any[] = [];
@@ -114,18 +119,34 @@ export default class CarryForm extends Component<any, any> {
   async componentDidMount() {
     const { faktorNumber } = this.props;
     const products = await getCustomerFactorDetails(faktorNumber);
+    const exitRequests = await getExitRequestsByOrderNumber(faktorNumber);
 
     setTimeout(async () => {
       const lcNumber = await getLCNumber(faktorNumber);
       this.setState({ lcNumber });
     }, 1000);
 
-    this.setState({ products, faktorNumber });
+    this.setState({ products, faktorNumber, exitRequests });
+    console.log(exitRequests);
+    const { totalMetraj, totalMablagh } = calculateExitSummary(exitRequests);
+    console.log("مجموع متراژ:", totalMetraj);
+    console.log("مجموع مبلغ:", totalMablagh);
   }
 
   render() {
-    const { products, faktorNumber } = this.state;
+    const { products, faktorNumber, exitRequests } = this.state;
     const subFolder = Guid();
+
+    if (!exitRequests || Object.keys(exitRequests).length === 0) {
+      return (
+        <div className={styles.faktorLoadingContainer}>
+          <div className={styles.faktorLoadingSpinner}></div>
+          <span className={styles.faktorLoadingSpinnerSpan}>
+            در حال بارگذاری...
+          </span>
+        </div>
+      );
+    }
 
     return (
       <div className={styles.carryContainer}>
@@ -133,67 +154,52 @@ export default class CarryForm extends Component<any, any> {
           <div className={styles.caryReceiptContainer}>
             <div className={styles.carrySelectedProductContainer}>
               <div className={styles.carrySelectedProductUL}>
-                {this.state.selectedProducts.length === 0 ? (
-                  <p className={styles.carrySelectedProductParaph}>
-                    هنوز محصولی انتخاب نشده است
-                  </p>
-                ) : (
-                  this.state.selectedProducts.map((item) => (
-                    <div
-                      key={item.Product}
-                      className={styles.carrySelectedProductDiv}
-                    >
-                      <p className={styles.carrySelectedProductText}>
-                        {item.Title}
-                      </p>
-                      <p className={styles.carrySelectedProductText}>
-                        <span className={styles.carrySelectedProductText}>
-                          ریال:
-                        </span>
-                        {item.Price}
-                      </p>
-                      <div className={styles.carrySelectedProductInputDiv}>
-                        <label
-                          className={styles.carrySelectedProductText}
-                          htmlFor="count"
-                        >
-                          مقدار ارسالی (متر):
-                        </label>
-                        <input
-                          className={styles.carrySelectedProductInput}
-                          type="text"
-                          name="count"
-                          value={this.state.productCounts[item.Product] || ""}
-                          onChange={(e) =>
-                            this.handleCountChange(
-                              item.Product,
-                              e.currentTarget.value
-                            )
-                          }
-                        />
-                      </div>
-                      <button
-                        type="button"
-                        className={styles.carryRemoveProductButton}
-                        onClick={() => this.handleRemoveProduct(item.Product)}
+                {exitRequests &&
+                  exitRequests.map(
+                    (item: {
+                      ID: React.Key;
+                      goodsname: any;
+                      metrajdarkhast: any;
+                      date_k: any;
+                    }) => (
+                      <div
+                        key={item.ID}
+                        className={styles.carrySelectedProductDiv}
                       >
-                        حذف
-                      </button>
-                    </div>
-                  ))
-                )}
+                        <p className={styles.carrySelectedProductText}>
+                          {item.goodsname}
+                        </p>
+                        <p className={styles.carrySelectedProductText}>
+                          <span className={styles.carrySelectedProductText}>
+                            متر:
+                          </span>
+                          {item.metrajdarkhast}
+                        </p>
+                        <p className={styles.carrySelectedProductText}>
+                          <span className={styles.carrySelectedProductText}>
+                            ریال:
+                          </span>
+                          {item.date_k}
+                        </p>
+                      </div>
+                    )
+                  )}
               </div>
             </div>
+            {/* <div className={styles.carrySelectedProductDiv}>
+              <p className={styles.carrySelectedProductText}>
+                {item.goodsname}
+              </p>
+              <p className={styles.carrySelectedProductText}>
+                <span className={styles.carrySelectedProductText}>متراژ:</span>
+                {item.metrajdarkhast}
+              </p>
+              <p className={styles.carrySelectedProductText}>
+                <span className={styles.carrySelectedProductText}>مبلغ کل:</span>
+                {item.date_k}
+              </p>
+            </div> */}
             <div className={styles.carryFormBtnContainer}>
-              <button
-                className={styles.carryAddProductButton}
-                type="button"
-                onClick={() => {
-                  this.setState({ chooseProduct: true });
-                }}
-              >
-                انتخاب محصول
-              </button>
               <button type="submit" className={styles.carrySubmitButton}>
                 ثبت اطلاعات رسید حمل
               </button>

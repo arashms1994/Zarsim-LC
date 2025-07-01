@@ -1,7 +1,6 @@
 import * as React from "react";
 import styles from "../ZarsimLc.module.scss";
 import CarryForm from "./CarryForm";
-import Guid from "../utils/CreateGUID";
 
 export default class Carry extends React.Component<any, any> {
   constructor(props: any) {
