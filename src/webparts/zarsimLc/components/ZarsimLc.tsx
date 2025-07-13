@@ -28,7 +28,7 @@ export default class ZarsimLc extends React.Component<IZarsimLcProps, any> {
   }
 
   public render(): React.ReactElement<IZarsimLcProps> {
-    const { customer, products } = this.state;
+    const { customer } = this.state;
 
     return (
       <div className={styles.LCContainer}>

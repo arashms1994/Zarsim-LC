@@ -2,7 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import styles from "./Carry.module.scss";
 import { FileUploader } from "../fileUploader/FileUploader";
-import ChooseProduct from "./product/ChooseProduct";
 import {
   getCustomerFactorDetails,
   getExitRequestsByOrderNumber,
@@ -14,6 +13,7 @@ import {
   calculateExitSummary,
   formatRial,
 } from "../utils/calculateExitSummary";
+import { formatNumberWithComma } from "../utils/formatNumberWithComma";
 
 export default class CarryForm extends Component<any, any> {
   private fileUploaders: any[] = [];
@@ -91,7 +91,7 @@ export default class CarryForm extends Component<any, any> {
   handleRemoveProduct = (productId: string) => {
     this.setState((prevState) => {
       const updatedProducts = prevState.selectedProducts.filter(
-        (item) => item.Product !== productId
+        (item: { Product: string }) => item.Product !== productId
       );
 
       const updatedCounts: any = {};
@@ -128,9 +128,11 @@ export default class CarryForm extends Component<any, any> {
     const { faktorNumber } = this.props;
     const products = await getCustomerFactorDetails(faktorNumber);
     const exitRequests = await getExitRequestsByOrderNumber(faktorNumber);
-    // const summary = calculateExitSummary(exitRequests);
-    // console.log("متراژ کل:", summary.totalMetraj);
-    // console.log("مبلغ کل:", formatRial(summary.totalMablagh));
+    const summary = calculateExitSummary(exitRequests);
+    const totalMetraj = summary.totalMetraj;
+    const totalMablagh = summary.totalMablagh;
+    console.log("متراژ کل:", totalMetraj);
+    console.log("مبلغ کل:", formatRial(totalMablagh));
 
     setTimeout(async () => {
       const { LCNumber, TotalPrice } = await getLCNumberAndTotalPrice(
@@ -142,17 +144,17 @@ export default class CarryForm extends Component<any, any> {
       products,
       faktorNumber,
       exitRequests,
-      // totalMablagh,
-      // totalMetraj,
+      totalMablagh,
+      totalMetraj,
     });
     console.log(this.state.LCNumber, this.state.TotalPrice);
     console.log(exitRequests);
-    // console.log("مجموع متراژ:", totalMetraj);
-    // console.log("مجموع مبلغ:", totalMablagh);
+    console.log("مجموع متراژ:", totalMetraj);
+    console.log("مجموع مبلغ:", totalMablagh);
   }
 
   render() {
-    const { products, faktorNumber, exitRequests, totalMetraj, totalMablagh } =
+    const { faktorNumber, exitRequests, totalMetraj, totalMablagh } =
       this.state;
     const subFolder = Guid();
 
@@ -205,6 +207,7 @@ export default class CarryForm extends Component<any, any> {
                   )}
               </div>
             </div>
+
             <div className={styles.carrySelectedProductDiv}>
               <div className={styles.carrySelectedProductDiv}>
                 <p className={styles.carrySelectedProductText}>
@@ -217,9 +220,9 @@ export default class CarryForm extends Component<any, any> {
               <div className={styles.carrySelectedProductDiv}>
                 <p className={styles.carrySelectedProductText}>
                   <span className={styles.carrySelectedProductText}>
-                    مبلغ کل:
+                    مبلغ کل (ريال):
                   </span>
-                  {totalMablagh}
+                  {formatNumberWithComma(totalMablagh)}
                 </p>
               </div>
             </div>
@@ -234,7 +237,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel}>آپلود صورتحساب فروش:</label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[0] = el)}
+            ref={(el: any) => el && (this.fileUploaders[0] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -243,7 +246,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel}>آپلود لیست دسته بندی:</label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[1] = el)}
+            ref={(el: any) => el && (this.fileUploaders[1] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -252,7 +255,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel}>آپلود گواهی بازرسی:</label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[2] = el)}
+            ref={(el: any) => el && (this.fileUploaders[2] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -261,7 +264,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel}>آپلود بارنامه:</label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[3] = el)}
+            ref={(el: any) => el && (this.fileUploaders[3] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -270,7 +273,7 @@ export default class CarryForm extends Component<any, any> {
         <div className={styles.carryDiv}>
           <label className={styles.carryLabel}>آپلود برگه باسکول:</label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[4] = el)}
+            ref={(el: any) => el && (this.fileUploaders[4] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -281,7 +284,7 @@ export default class CarryForm extends Component<any, any> {
             آپلود نامه رسمی شرکت زرسیم:
           </label>
           <FileUploader
-            ref={(el) => el && (this.fileUploaders[5] = el)}
+            ref={(el: any) => el && (this.fileUploaders[5] = el)}
             orderNumber={faktorNumber}
             subFolder={subFolder}
           />
@@ -294,9 +297,6 @@ export default class CarryForm extends Component<any, any> {
         >
           آپلود فایل‌ها
         </button>
-        <button onClick={() => {
-                  console.log(getLCNumberAndTotalPrice(faktorNumber));
-                }}>ddddddddddddd</button>
       </div>
     );
   }
