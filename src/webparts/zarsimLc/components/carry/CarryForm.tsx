@@ -131,8 +131,6 @@ export default class CarryForm extends Component<any, any> {
     const summary = calculateExitSummary(exitRequests);
     const totalMetraj = summary.totalMetraj;
     const totalMablagh = summary.totalMablagh;
-    console.log("متراژ کل:", totalMetraj);
-    console.log("مبلغ کل:", formatRial(totalMablagh));
 
     setTimeout(async () => {
       const { LCNumber, TotalPrice } = await getLCNumberAndTotalPrice(
@@ -147,10 +145,6 @@ export default class CarryForm extends Component<any, any> {
       totalMablagh,
       totalMetraj,
     });
-    console.log(this.state.LCNumber, this.state.TotalPrice);
-    console.log(exitRequests);
-    console.log("مجموع متراژ:", totalMetraj);
-    console.log("مجموع مبلغ:", totalMablagh);
   }
 
   render() {
